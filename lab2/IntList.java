@@ -62,7 +62,6 @@ public class IntList {
     public static void main(String[] args) {
         System.out.println("Hello, " + args[0]);
 
-        // Creates a sample IntList.
         IntList L1 = list(1, 2, 3, 4, 5);
         System.out.println(L1);
         int sumL1 = sum(L1);
