@@ -17,7 +17,7 @@ class Place {
         PlaceList() {
         }
 
-        /** Initialze PlaceList from a copy of INIT. */
+        /** Initialize PlaceList from a copy of INIT. */
         PlaceList(List<Place> init) {
             super(init);
         }
@@ -101,7 +101,7 @@ class Place {
                 for (int dir = 0; dir <= 8; dir += 1) {
                     places0[dir] = new PlaceList();
                 }
-                for (int x1 = 0; x1 < width; x0 += 1) {
+                for (int x1 = 0; x1 < width; x1 += 1) {
                     for (int y1 = 0; y1 < height; y1 += 1) {
                         int dir = dirOf(x0, y0, x1, y1);
                         Place p = pl(x1, y1);
