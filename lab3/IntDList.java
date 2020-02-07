@@ -47,8 +47,13 @@ public class IntDList {
      * @return The number of elements in this list.
      */
     public int size() {
-        // FIXME: Implement this method and return correct value
-        return 0;
+        int num = 0;
+        DNode temp = _front
+        while (temp._next != null) {
+            num += 1;
+            temp = temp._next;
+        }
+        return num;
     }
 
     /**
@@ -62,22 +67,47 @@ public class IntDList {
      * @return The integer value at index i
      */
     public int get(int i) {
-        // FIXME: Implement this method and return correct value
-        return 0;
+        if (i == 0) {
+            return _val;
+        }
+        if (i > 0) {
+            int index = _front
+            while (i > 0) {
+                index = _next;
+                i -= 1;
+            }
+            return index.val;
+        }
+        if (i < 0) {
+            int index = _back;
+            while (i < 0) {
+                index = _prev;
+                i += 1;
+            }
+            return index.val;
+        }
     }
 
     /**
      * @param d value to be inserted in the front
      */
     public void insertFront(int d) {
-        // FIXME: Implement this method
+        if (_front == null && _back == null) {
+            _front = d;
+        }
+        DNode insert = new DNode(null, d, _front._prev);
+        _front_.prev = insert._next;
+        _front = insert;
     }
 
     /**
      * @param d value to be inserted in the back
      */
     public void insertBack(int d) {
-        // FIXME: Implement this method
+        DNode insert = new DNode(_back._next, d, null);
+        _back._next = insert._prev;
+        _back = insert;
+
     }
 
     /**
@@ -92,7 +122,29 @@ public class IntDList {
      *              and -(size+1) <= index <= -1 for negative indices (including insertions at front and back).
      */
     public void insertAtIndex(int d, int index) {
-        // FIXME: Implement this method
+        if (index == 0) {
+            _front._val = d;
+        }
+        if (index > 0) {
+            DNode curr = _front
+            while (index > 0) {
+                curr = curr._next;
+                i -= 1;
+            }
+            DNode insert = new DNode(curr._prev, d, curr._next);
+            insert._prev._next = insert._prev;
+            insert._next._prev = insert._next;
+
+
+        }
+        if (i < 0) {
+            int index = _back;
+            while (i < 0) {
+                index = _prev;
+                i += 1;
+            }
+            return index.val;
+        }
     }
 
     /**
