@@ -13,6 +13,8 @@ public class MultiArrTest {
     public void testAllRowSums() {
         int[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 5, 4, 3, 2}, {2, 8, 7}};
         assertEquals(59, MultiArr.allRowSums(array));
+        int[][] arrnone = {{}};
+        assertEquals(0, MultiArr.allRowSums(arrnone));
     }
 
 
