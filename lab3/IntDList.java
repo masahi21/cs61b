@@ -67,10 +67,8 @@ public class IntDList {
      * @return The integer value at index i
      */
     public int get(int i) {
-        if (i == 0) {
-            return _front._val;
-        }
-        else if (i > 0) {
+
+        if (i > 0) {
             DNode index = _front;
             while (i > 0) {
                 index = index._next;
@@ -78,6 +76,7 @@ public class IntDList {
             }
             return index._val;
         }
+
         else if (i < 0) {
             DNode index = _back;
             while (i < 0) {
@@ -86,6 +85,12 @@ public class IntDList {
             }
             return index._val;
         }
+        else if (i == 0) {
+            return _front._val;
+        }
+        else if (i == -1) {
+            return _back._val;
+        }
         return -1;
     }
 
@@ -93,7 +98,7 @@ public class IntDList {
      * @param d value to be inserted in the front
      */
     public void insertFront(int d) {
-        DNode insertF = new DNode(null, d, _front._prev);
+        DNode insertF = new DNode(null, d, _front);
         if (_front == null && _back == null) {
             _front = insertF;
         }
@@ -105,7 +110,7 @@ public class IntDList {
      * @param d value to be inserted in the back
      */
     public void insertBack(int d) {
-        DNode insertB = new DNode(_back._next, d, null);
+        DNode insertB = new DNode(_back, d, null);
         if (_back != null) {
             _back._next = insertB;
         }
@@ -249,7 +254,6 @@ public class IntDList {
         }
         String str = "[";
         DNode curr = _front;
-        str += curr._val;
         for (; curr._next != null; curr = curr._next) {
             str += curr._val + ", ";
         }
