@@ -85,7 +85,6 @@ class Model implements Iterable<Model.Sq> {
         _width = solution.length; _height = solution[0].length;
         int last = _width * _height;
         BitSet allNums = new BitSet();
-        _solnNumToPlace = new Place[size() + 1]; //FIXME: comment?
         _allSuccessors = Place.successorCells(_width, _height);
         _solution = new int[_width][_height];
         deepCopy(solution, _solution);
@@ -99,6 +98,7 @@ class Model implements Iterable<Model.Sq> {
         //        contains sequence number k.  Check that all numbers from
         //        1 - last appear; else throw IllegalArgumentException (see
         //        badArgs utility).
+        _solnNumToPlace = new Place[size() + 1]; //FIXME: comment?
         _board = new Sq[width()][height()];
 
         for (int i = 0; i < solution.length; i += 1) {
@@ -632,7 +632,6 @@ class Model implements Iterable<Model.Sq> {
             if (!connectable(s1)) {
                 return false;
             }
-            int sgroup = s1.group();
 
             _unconnected -= 1;
 
@@ -747,7 +746,7 @@ class Model implements Iterable<Model.Sq> {
                 //        their sequence numbers to 0 and create a new group
                 //        for them if this has a current predecessor (other
                 //        set group to -1).
-                if (! thisPredHasFixedNum(this)) {
+                if (!thisPredHasFixedNum(this)) {
                     int groupNum = this._predecessor == null ? -1 : newGroup();
                     Sq temp = this;
 
