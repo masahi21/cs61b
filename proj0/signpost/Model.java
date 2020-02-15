@@ -730,7 +730,7 @@ class Model implements Iterable<Model.Sq> {
                 } else if (next._successor != null && this._predecessor == null) {
                     this._group = -1;
                 } else if (next._successor == null) {
-                    next._group = 01;
+                    next._group = -1;
                 }else {
                     int newGro = newGroup();
                     Sq temp = next;

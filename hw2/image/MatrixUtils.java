@@ -176,7 +176,7 @@ public class MatrixUtils {
         for (r = height - 2; r >= 0; r -= 1) {
             int min = vSeam[r + 1] - 1;
             int max = vSeam[r + 1] + 1;
-            int x= minInd(m[r], min, max);
+            int x = minInd(m[r], min, max);
             vSeam[r] = x;
         }
         return vSeam;

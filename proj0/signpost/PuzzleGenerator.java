@@ -8,7 +8,7 @@ import static signpost.Place.PlaceList;
 import static signpost.Utils.*;
 
 /** A creator of random Signpost puzzles.
- *  @author
+ *  @author Matthew Sahim
  */
 class PuzzleGenerator implements PuzzleSource {
 
@@ -22,8 +22,8 @@ class PuzzleGenerator implements PuzzleSource {
     public Model getPuzzle(int width, int height, boolean allowFreeEnds) {
         Model model =
             new Model(makePuzzleSolution(width, height, allowFreeEnds));
-        // FIXME: Remove the "//" on the following two lines.
-        // makeSolutionUnique(model);
+
+        makeSolutionUnique(model);
         model.autoconnect();
         return model;
     }
@@ -52,18 +52,9 @@ class PuzzleGenerator implements PuzzleSource {
         }
         _vals[x0][y0] = 1;
         _vals[x1][y1] = last;
-        // FIXME: Remove the following return statement and uncomment the
-        //        next three lines.
-        /*return new int[][] {
-            { 14, 9, 8, 1 },
-            { 15, 10, 7, 2 },
-            { 13, 11, 6, 3 },
-            { 16, 12, 5, 4 }
-        };
-        */
 
-        //boolean ok = findSolutionPathFrom(x0, y0);
-        //assert ok;
+        boolean ok = findSolutionPathFrom(x0, y0);
+        assert ok;
         return _vals;
     }
 
