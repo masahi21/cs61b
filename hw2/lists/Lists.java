@@ -20,6 +20,23 @@ class Lists {
      *  original list pointed to by L. */
     static IntListList naturalRuns(IntList L) {
         /* *Replace this body with the solution. */
-        return null;
+        if (L == null) {
+            return null;
+        }
+        IntList rest = null;
+        IntList head = L;
+        IntList orig = L;
+        for(int h = L.head; L != null && h <= L.head; L = L.tail) {
+            h = L.head;
+            rest = L.tail;
+            head = L;
+            if (L.tail != null && h == L.tail.head) {
+                break;
+            }
+        }
+        if (head != null) {
+            head.tail = null;
+        }
+        return new IntListList(orig, naturalRuns(rest));
     }
 }

@@ -11,6 +11,11 @@ import static org.junit.Assert.*;
 public class ListsTest {
     /** FIXME
      */
+    @Test
+    public void ListsTest1() {
+        IntList L = (1, 3, 7, 5, 4, 6, 9, 10, 10, 11);
+
+    }
 
     // It might initially seem daunting to try to set up
     // IntListList expected.
