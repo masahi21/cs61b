@@ -3,18 +3,20 @@ package lists;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/** FIXME
+/** Testing the method in Lists.java.
  *
- *  @author FIXME
+ *  @author Matthew Sahim
  */
 
 public class ListsTest {
-    /** FIXME
-     */
-    @Test
-    public void ListsTest1() {
-        IntList L = (1, 3, 7, 5, 4, 6, 9, 10, 10, 11);
 
+    @Test
+    public void naturalRunsTest() {
+        assertEquals(IntListList.list(IntList.list(1, 3, 8),
+                                      IntList.list(2, 6),
+                                      IntList.list(5),
+                                      IntList.list(4, 9)),
+                Lists.naturalRuns(IntList.list(1, 3, 8, 2, 6, 5, 4, 9)));
     }
 
     // It might initially seem daunting to try to set up

@@ -15,11 +15,12 @@ class Arrays {
      *  the elements of B. */
     static int[] catenate(int[] A, int[] B) {
         int[] C = new int[A.length + B.length];
-        for (int i = 0; i < A.length; i += 1) {
+        int i = 0;
+        for (; i < A.length; i += 1) {
             C[i] = A[i];
         }
-        for (int j = 0; j < B.length; B += 1) {
-            C[A.length - 1 + j] = B[j];
+        for (int j = 0; j < B.length; j += 1, i += 1) {
+            C[i] = B[j];
         }
         return C;
     }

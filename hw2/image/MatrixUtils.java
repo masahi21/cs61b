@@ -54,8 +54,29 @@ public class MatrixUtils {
      *
      */
 
+    private static double get(double[][] e, int r, int c) {
+        int width = e[0].length;
+        int height = e.length;
+        if ((c < 0) || (c >= width) || (r < 0) || (r >= height)) {
+            return Double.POSITIVE_INFINITY;
+        }
+        return e[r][c];
+    }
+
     public static double[][] accumulateVertical(double[][] m) {
-        return null; //your code here
+        m = copy(m);
+        for (int row = 1; row < m.length; row += 1) {
+            for (int col = 0; col < m[0].length; col += 1) {
+                double best = Double.POSITIVE_INFINITY;
+                for (int dif = -1; dif <= 1; dif += 1) {
+                    if (get(m, row - 1, col + dif) < best) {
+                        best = get(m, row - 1, col + dif);
+                    }
+                }
+                m[row][col] += best;
+            }
+        }
+        return m;
     }
 
     /** Non-destructively accumulates a matrix M along the specified
@@ -71,7 +92,7 @@ public class MatrixUtils {
      *  accumulateVertical(mT) returns the correct result.
      *
      *  accumulate should be very short (only a few lines). Most of the
-     *  work should be done in creaing the helper function (and even
+     *  work should be done in creating the helper function (and even
      *  that function should be pretty short and straightforward).
      *
      *  The important lesson here is that you should never have big
@@ -81,8 +102,24 @@ public class MatrixUtils {
      *
      */
 
+    private static double[][] transpose(double[][] m) {
+        int width = m[0].length;
+        int height = m.length;
+
+        double[][] mT = new double[width][height];
+        for (int r = 0; r < height; r += 1) {
+            for (int c = 0; c < width; c += 1) {
+                mT[c][r] = m[r][c];
+            }
+        }
+        return mT;
+    }
+
     public static double[][] accumulate(double[][] m, Orientation orientation) {
-        return null; //your code here
+        if (orientation == Orientation.HORIZONTAL) {
+            m = transpose(m);
+        }
+        return transpose(accumulateVertical(m));
     }
 
     /** Finds the vertical seam VERTSEAM of the given matrix M.
@@ -113,9 +150,36 @@ public class MatrixUtils {
      *  One way to test seam correctness is to check that the
      *  total energy is approximately equal.
      */
+    private static int minInd(double[] x, int lo, int hi) {
+        if (lo < 0) {
+            lo = 0;
+        }
+        if (hi >= x.length) {
+            hi = x.length - 1;
+        }
+        int minI = lo;
+        for (int i = lo; i <= hi; i += 1) {
+            if (x[i] < x[minI]) {
+                minI = i;
+            }
+        }
+        return minI;
+    }
 
     public static int[] findVerticalSeam(double[][] m) {
-        return null; //your code here
+        int width = m[0].length;
+        int height = m.length;
+
+        int[] vSeam = new int[height];
+        int r = height - 1;
+
+        for (r = height - 2; r >= 0; r -= 1) {
+            int min = vSeam[r + 1] - 1;
+            int max = vSeam[r + 1] + 1;
+            int x= minInd(m[r], min, max);
+            vSeam[r] = x;
+        }
+        return vSeam;
     }
 
     /** Returns the SEAM of M with the given ORIENTATION.
@@ -124,7 +188,11 @@ public class MatrixUtils {
      */
 
     public static int[] findSeam(double[][] m, Orientation orientation) {
-        return null; //your code here
+        if (orientation == Orientation.HORIZONTAL) {
+            m = transpose(m);
+        }
+        int [] seam = findVerticalSeam(m);
+        return seam;
     }
 
     /** does nothing. ARGS not used. use for whatever purposes you'd like */
