@@ -1,10 +1,12 @@
 package signpost;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
 import signpost.Model.Sq;
 import static signpost.Place.PlaceList;
+import static signpost.Place.pl;
 import static signpost.Utils.*;
 
 /** A creator of random Signpost puzzles.
@@ -127,8 +129,24 @@ class PuzzleGenerator implements PuzzleSource {
      *  numbered square in the proper direction from START (with the next
      *  number in sequence). */
     static Sq findUniqueSuccessor(Model model, Sq start) {
-        // FIXME: Fill in to satisfy the comment.
-        return null;
+        ArrayList<Sq> connectables = new ArrayList<Sq>();
+        for (Place pl: start.successors()) {
+            Sq next = model.get(pl.x, pl.y);
+            if (start.connectable(next)) {
+                connectables.add(next);
+            }
+        }
+        if (connectables.size() > 0
+                && connectables.get(0).sequenceNum() == start.sequenceNum() + 1) {
+            return connectables.get(0);
+        }
+        else if (connectables.size() == 1) {
+            return connectables.get(0);
+        }
+        else {
+            return null;
+        }
+
     }
 
     /** Make all unique backward connections in MODEL (those in which there is
