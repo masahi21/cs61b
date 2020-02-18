@@ -611,7 +611,9 @@ class Model implements Iterable<Model.Sq> {
             if (_successors == null) {
                 return false;
             }
-            if (_successors.contains(s1.pl) && this.successor() == null && s1.predecessor() == null) {
+            if (_successors.contains(s1.pl)
+                    && this.successor() == null
+                    && s1.predecessor() == null) {
                 if (s1.sequenceNum() != 0 && this.sequenceNum() != 0) {
                     return s1.sequenceNum() - this.sequenceNum() == 1;
                 }

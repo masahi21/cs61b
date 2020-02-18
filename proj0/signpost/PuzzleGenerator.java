@@ -146,7 +146,6 @@ class PuzzleGenerator implements PuzzleSource {
         else {
             return null;
         }
-
     }
 
     /** Make all unique backward connections in MODEL (those in which there is
@@ -175,7 +174,19 @@ class PuzzleGenerator implements PuzzleSource {
      *  already finds the other cases of numbered, unconnected cells. */
     static Sq findUniquePredecessor(Model model, Sq end) {
         // FIXME: Replace the following to satisfy the comment.
-        return null;
+        ArrayList<Sq> connectables = new ArrayList<Sq>();
+        for (Place pl: end.predecessors()) {
+            Sq prev = model.get(pl.x, pl.y);
+            if (end.connectable(prev)) {
+                connectables.add(prev);
+            }
+        }
+        if (connectables.size() == 1) {
+            return connectables.get(0);
+        }
+        else {
+            return null;
+        }
     }
 
     /** Remove all links in MODEL and unfix numbers (other than the first and
