@@ -339,7 +339,7 @@ class Model implements Iterable<Model.Sq> {
                 break;
             }
         }
-        // _unconnected = 0;
+         _unconnected = 0;
     }
 
     /** Return the direction from cell (X, Y) in the solution to its
@@ -611,11 +611,13 @@ class Model implements Iterable<Model.Sq> {
             if (_successors == null) {
                 return false;
             }
-            if (_successors.contains(s1.pl) && this.successor() == null && s1.predecessor() == null) {
+            if (_successors.contains(s1.pl)
+                    && this.successor() == null
+                    && s1.predecessor() == null) {
                 if (s1.sequenceNum() != 0 && this.sequenceNum() != 0) {
                     return s1.sequenceNum() - this.sequenceNum() == 1;
                 }
-                else if (s1.sequenceNum() == 0 && this.sequenceNum() == 0) {
+                if (s1.sequenceNum() == 0 && this.sequenceNum() == 0) {
                     return this._head != s1._head;
                 }
                 else {
@@ -666,7 +668,7 @@ class Model implements Iterable<Model.Sq> {
                     temp = temp.successor();
                 }
             }
-            else if (s1.sequenceNum() != 0) {
+            if (s1.sequenceNum() != 0) {
                 Sq temp = this;
                 int currSeqInt = s1.sequenceNum() - 1;
                 mySequ = true;
@@ -689,7 +691,7 @@ class Model implements Iterable<Model.Sq> {
                     helperThis._group = 0;
                     helperThis = helperThis._predecessor;
                 }
-            } else if (s1Sequ && s1._sequenceNum != 0) {
+            } if (s1Sequ && s1._sequenceNum != 0) {
                 Sq helperS1 = s1;
                 releaseGroup(sGroup);
                 while (helperS1 != null) {
