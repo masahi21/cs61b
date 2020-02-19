@@ -50,6 +50,7 @@ clean:
 	"$(MAKE)" -C $(PACKAGE) clean
 	"$(MAKE)" -C testing clean
 
+# Makes the student output for all the .in files and saves them as test0x_stud.std
 student_outputs:
 	"$(MAKE)" -C ..
 	@for inp in $(TESTS); do \
