@@ -25,7 +25,7 @@ class PuzzleGenerator implements PuzzleSource {
         Model model =
             new Model(makePuzzleSolution(width, height, allowFreeEnds));
 
-       // makeSolutionUnique(model);
+        makeSolutionUnique(model);
         model.autoconnect();
         return model;
     }
@@ -139,11 +139,9 @@ class PuzzleGenerator implements PuzzleSource {
         if (connectables.size() > 0
                 && connectables.get(0).sequenceNum() == start.sequenceNum() + 1) {
             return connectables.get(0);
-        }
-        else if (connectables.size() == 1) {
+        } else if (connectables.size() == 1) {
             return connectables.get(0);
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -183,11 +181,9 @@ class PuzzleGenerator implements PuzzleSource {
         if (connectables.size() > 0
                 && connectables.get(0).sequenceNum() == end.sequenceNum() - 1) {
             return connectables.get(0);
-        }
-        else if (connectables.size() == 1) {
+        } else if (connectables.size() == 1) {
             return connectables.get(0);
-        }
-        else {
+        } else {
             return null;
         }
     }

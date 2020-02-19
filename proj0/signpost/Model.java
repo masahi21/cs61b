@@ -109,8 +109,7 @@ class Model implements Iterable<Model.Sq> {
                 if (thisNum == 1 || thisNum == width() * height()) {
                     currSq = new Sq(x, y, solution[x][y], true,
                             arrowDirection(x, y), 0);
-                }
-                else {
+                } else {
                     currSq = new Sq(x, y, 0, false,
                             arrowDirection(x, y), -1);
                 }
@@ -152,7 +151,7 @@ class Model implements Iterable<Model.Sq> {
         _solnNumToPlace = model._solnNumToPlace.clone();
         _solution = model._solution.clone();
         _usedGroups.addAll(model._usedGroups);
-        _allSuccessors = Place.successorCells(width(),height());
+        _allSuccessors = Place.successorCells(width(), height());
 
         // FIXME: Initialize _board and _allSquares to contain copies of the
         //        the Sq objects in MODEL other than their _successor,
@@ -313,7 +312,7 @@ class Model implements Iterable<Model.Sq> {
                 break;
             }
         }
-         _unconnected = 0;
+        _unconnected = 0;
     }
 
     /** Return the direction from cell (X, Y) in the solution to its
@@ -322,8 +321,9 @@ class Model implements Iterable<Model.Sq> {
         int seq0 = _solution[x][y];
         for (int i = 0; i < width(); i += 1) {
             for (int j = 0; j < height(); j += 1) {
-                if (_solution[i][j] == seq0 + 1)
+                if (_solution[i][j] == seq0 + 1) {
                     return Place.dirOf(x, y, i, j);
+                }
             }
         }
         return 0;
@@ -594,17 +594,14 @@ class Model implements Iterable<Model.Sq> {
 
             if (!corDir || !second || !third) {
                 return false;
-            }
-            else if (s1.sequenceNum() == 0 && this.sequenceNum() == 0) {
+            } else if (s1.sequenceNum() == 0 && this.sequenceNum() == 0) {
                 if (s1.group() == -1 && this.group() == -1) {
                     return true;
-                }
-                else if (s1.group() == this.group()) {
+                } else if (s1.group() == this.group()) {
                     return false;
                 }
                 return true;
-            }
-            else {
+            } else {
                 return true;
             }
 
@@ -673,7 +670,8 @@ class Model implements Iterable<Model.Sq> {
                     helperThis._group = 0;
                     helperThis = helperThis._predecessor;
                 }
-            } if (s1Sequ && s1._sequenceNum != 0) {
+            }
+            if (s1Sequ && s1._sequenceNum != 0) {
                 Sq helperS1 = s1;
                 releaseGroup(sGroup);
                 while (helperS1 != null) {
@@ -715,7 +713,7 @@ class Model implements Iterable<Model.Sq> {
                     this._group = -1;
                 } else if (next._successor == null) {
                     next._group = -1;
-                }else {
+                } else {
                     int newGro = newGroup();
                     Sq temp = next;
                     while (temp != null) {
@@ -746,19 +744,19 @@ class Model implements Iterable<Model.Sq> {
                 //        group for them if next has a current successor
                 //        (otherwise set next's group to -1.)
 
-            if (!nextSuccHasFixedNum(next)) {
-                int groupNum = next._successor != null ? newGroup() : -1;
-                Sq temp = next;
+                if (!nextSuccHasFixedNum(next)) {
+                    int groupNum = next._successor != null ? newGroup() : -1;
+                    Sq temp = next;
 
-                while (temp != null) {
-                    temp._sequenceNum = 0;
-                    temp._group = groupNum;
-                    temp = temp._successor;
+                    while (temp != null) {
+                        temp._sequenceNum = 0;
+                        temp._group = groupNum;
+                        temp = temp._successor;
+                    }
                 }
-            }
             // FIXME: Set the _head of next and all squares in its group to
             //        next.
-        }
+            }
             Sq temp = next;
             while (temp != null) {
                 temp._head = next;
