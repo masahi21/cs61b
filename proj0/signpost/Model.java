@@ -89,15 +89,6 @@ class Model implements Iterable<Model.Sq> {
         _solution = new int[_width][_height];
         deepCopy(solution, _solution);
 
-
-
-        // FIXME: Initialize _board so that _board[x][y] contains the Sq object
-        //        representing the contents at cell (x, y), _allSquares
-        //        contains the list of all Sq objects on the board, and
-        //        _solnNumToPlace[k] contains the Place in _solution that
-        //        contains sequence number k.  Check that all numbers from
-        //        1 - last appear; else throw IllegalArgumentException (see
-        //        badArgs utility).
         _solnNumToPlace = new Place[last + 1];
         _board = new Sq[width()][height()];
         int sumAllNums = last * (last + 1) / 2;
@@ -123,13 +114,6 @@ class Model implements Iterable<Model.Sq> {
         if (sumAllNums != 0) {
             throw new IllegalArgumentException("Must contain all numbers");
         }
-
-        // FIXME: For each Sq object on the board, set its _successors list
-        //        to the list of locations of all cells that it might
-        //        connect to (i.e., all cells that are a queen move away
-        //        in the direction of its arrow).
-        //        Likewise, set its _predecessors list to the list of
-        //        all cells that might connect to it.
         for (int x = 0; x < _board.length; x += 1) {
             for (int y = 0; y < _board[x].length; y += 1) {
                 PlaceList[][][] allSuccessors = Place.successorCells(width(), height());
@@ -153,10 +137,6 @@ class Model implements Iterable<Model.Sq> {
         _usedGroups.addAll(model._usedGroups);
         _allSuccessors = Place.successorCells(width(), height());
 
-        // FIXME: Initialize _board and _allSquares to contain copies of the
-        //        the Sq objects in MODEL other than their _successor,
-        //        _predecessor, and _head fields (which can't necessarily be
-        //        set until all the Sq objects are first created.)
         _board = new Sq[_width][_height];
 
         for (int x = 0; x < width(); x += 1) {
@@ -169,16 +149,6 @@ class Model implements Iterable<Model.Sq> {
                 _allSquares.add(_board[x][y]);
             }
         }
-
-        // FIXME: Once all the new Sq objects are in place, fill in their
-        //        _successor, _predecessor, and _head fields.  For example,
-        //        if in MODEL, the _successor field of the Sq at
-        //        position (2, 3) pointed to the Sq in MODEL at position
-        //        (4, 1), then the Sq at position (2, 3) in this copy
-        //        will have a _successor field pointing to the Sq at
-        //        position (4, 1) in this copy.  Be careful NOT to have
-        //        any of these fields in the copy pointing at the old Sqs in
-        //        MODEL.
     }
 
     /** Returns the width (number of columns of cells) of the board. */
@@ -274,7 +244,6 @@ class Model implements Iterable<Model.Sq> {
      *  unconnected and are separated by a queen move.  Returns true iff
      *  any changes were made. */
     boolean autoconnect() {
-        // FIXME
         boolean changes = false;
         for (Sq currSq: _allSquares) {
             if (currSq.sequenceNum() != 0 && currSq.successor() == null
@@ -295,7 +264,6 @@ class Model implements Iterable<Model.Sq> {
     /** Sets the numbers in this board's squares to the solution from which
      *  this board was last initialized by the constructor. */
     void solve() {
-        // FIXME
         for (int i = 1; i < size(); i += 1) {
             Sq currSq = get(solnNumToSq(i));
             currSq.disconnect();
@@ -583,7 +551,6 @@ class Model implements Iterable<Model.Sq> {
          *    they are not part of the same connected sequence.
          */
         boolean connectable(Sq s1) {
-            // FIXME
             boolean corDir = this.direction() == Place.dirOf(this.x, this.y, s1.x, s1.y);
             boolean second = s1._predecessor == null && this._successor == null
                     && s1.sequenceNum() != 1
@@ -616,21 +583,6 @@ class Model implements Iterable<Model.Sq> {
             }
             _unconnected -= 1;
 
-            // FIXME: Connect this square to its successor:
-            //        + Set this square's _successor field and S1's
-            //          _predecessor field.
-            //        + If this square has a number, number all its successors
-            //          accordingly (if needed).
-            //        + If S1 is numbered, number this square and its
-            //          predecessors accordingly (if needed).
-            //        + Set the _head fields of this square's successors this
-            //          square's _head.
-            //        + If either of this square or S1 used to be unnumbered
-            //          and is now numbered, release its group of whichever
-            //          was unnumbered, so that it can be reused.
-            //        + If both this square and S1 are unnumbered, set the
-            //          group of this square's head to the result of joining
-            //          the two groups.
             this._successor = s1;
             s1._predecessor = this;
             boolean mySequ = false;
@@ -697,14 +649,6 @@ class Model implements Iterable<Model.Sq> {
             _unconnected += 1;
             next._predecessor = _successor = null;
             if (_sequenceNum == 0) {
-                // FIXME: If both this and next are now one-element groups,
-                //        release their former group and set both group
-                //        numbers to -1.
-                //        Otherwise, if either is now a one-element group, set
-                //        its group number to -1 without releasing the group
-                //        number.
-                //        Otherwise, the group has been split into two multi-
-                //        element groups.  Create a new group for next.
                 if (next._successor == null && this._predecessor == null) {
                     releaseGroup(this.group());
                     this._group = -1;
@@ -723,11 +667,6 @@ class Model implements Iterable<Model.Sq> {
                     }
                 }
             } else {
-                // FIXME: If neither this nor any square in its group that
-                //        precedes it has a fixed sequence number, set all
-                //        their sequence numbers to 0 and create a new group
-                //        for them if this has a current predecessor (other
-                //        set group to -1).
                 if (!thisPredHasFixedNum(this)) {
                     int groupNum = this._predecessor == null ? -1 : newGroup();
                     Sq temp = this;
@@ -738,12 +677,6 @@ class Model implements Iterable<Model.Sq> {
                         temp = temp._predecessor;
                     }
                 }
-                // FIXME: If neither next nor any square in its group that
-                //        follows it has a fixed sequence number, set all
-                //        their sequence numbers to 0 and create a new
-                //        group for them if next has a current successor
-                //        (otherwise set next's group to -1.)
-
                 if (!nextSuccHasFixedNum(next)) {
                     int groupNum = next._successor != null ? newGroup() : -1;
                     Sq temp = next;
@@ -754,8 +687,6 @@ class Model implements Iterable<Model.Sq> {
                         temp = temp._successor;
                     }
                 }
-            // FIXME: Set the _head of next and all squares in its group to
-            //        next.
             }
             Sq temp = next;
             while (temp != null) {

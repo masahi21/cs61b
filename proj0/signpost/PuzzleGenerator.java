@@ -22,10 +22,8 @@ class PuzzleGenerator implements PuzzleSource {
 
     @Override
     public Model getPuzzle(int width, int height, boolean allowFreeEnds) {
-        Model model =
-            new Model(makePuzzleSolution(width, height, allowFreeEnds));
+        Model model = new Model(makePuzzleSolution(width, height, allowFreeEnds));
 
-        makeSolutionUnique(model);
         model.autoconnect();
         return model;
     }
@@ -171,7 +169,6 @@ class PuzzleGenerator implements PuzzleSource {
      *  the only unconnected predecessor.  This is because findUniqueSuccessor
      *  already finds the other cases of numbered, unconnected cells. */
     static Sq findUniquePredecessor(Model model, Sq end) {
-        // FIXME: Replace the following to satisfy the comment.
         ArrayList<Sq> connectables = new ArrayList<Sq>();
         for (Place pl: end.predecessors()) {
             if (model.get(pl.x, pl.y).connectable(end)) {
