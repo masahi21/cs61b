@@ -49,3 +49,14 @@ clean:
 	$(RM) bin/$(PACKAGE).jar
 	"$(MAKE)" -C $(PACKAGE) clean
 	"$(MAKE)" -C testing clean
+
+student_outputs:
+	"$(MAKE)" -C ..
+	@for inp in $(TESTS); do \
+	    stud=$$(basename $$inp .in)_stud.std; \
+	    echo -n $$inp "=>" $$stud; \
+	    CLASSPATH=..:$(CLASSPATH) \
+               java $(JFLAGS) $(MAIN) --testing --no-display \
+		   < $$inp > $$stud; \
+		   echo;\
+	done
