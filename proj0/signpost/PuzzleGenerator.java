@@ -176,12 +176,15 @@ class PuzzleGenerator implements PuzzleSource {
         // FIXME: Replace the following to satisfy the comment.
         ArrayList<Sq> connectables = new ArrayList<Sq>();
         for (Place pl: end.predecessors()) {
-            Sq prev = model.get(pl.x, pl.y);
-            if (end.connectable(prev)) {
-                connectables.add(prev);
+            if (model.get(pl.x, pl.y).connectable(end)) {
+                connectables.add(model.get(pl.x, pl.y));
             }
         }
-        if (connectables.size() == 1) {
+        if (connectables.size() > 0
+                && connectables.get(0).sequenceNum() == end.sequenceNum() - 1) {
+            return connectables.get(0);
+        }
+        else if (connectables.size() == 1) {
             return connectables.get(0);
         }
         else {
