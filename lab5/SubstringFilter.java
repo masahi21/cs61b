@@ -8,6 +8,8 @@ public class SubstringFilter extends TableFilter {
     public SubstringFilter(Table input, String colName, String subStr) {
         super(input);
         // FIXME: Add your code here.
+        this.colName = colName;
+        this.subStr = subStr;
     }
 
     @Override
@@ -17,4 +19,6 @@ public class SubstringFilter extends TableFilter {
     }
 
     // FIXME: Add instance variables?
+    String colName;
+    String subStr;
 }

@@ -8,6 +8,8 @@ public class GreaterThanFilter extends TableFilter {
     public GreaterThanFilter(Table input, String colName, String ref) {
         super(input);
         // FIXME: Add your code here.
+        this.colName = colName;
+        this.ref = ref;
     }
 
     @Override
@@ -17,4 +19,6 @@ public class GreaterThanFilter extends TableFilter {
     }
 
     // FIXME: Add instance variables?
+    String colName;
+    String ref;
 }
