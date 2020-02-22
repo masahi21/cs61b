@@ -22,15 +22,15 @@ public class TrReader extends Reader {
         this.to = to;
     }
     public int read(char[] chars, int curr, int total) throws IOException{
-        int count = curr;
         int amount = 0;
+        int count = curr;
         for (int i = 0; i < total; i++) {
             int num = str.read();
             if (num == -1) {
                 return -1;
             } else {
                 char currChar = (char) num;
-                if (from.indexOf(currChar) == -1) {
+                if (from.indexOf(currChar) != -1) {
                     currChar = to.charAt(from.indexOf(currChar));
                 }
                 chars[count] = currChar;
