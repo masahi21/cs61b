@@ -15,10 +15,7 @@ public class ColumnMatchFilter extends TableFilter {
     @Override
     protected boolean keep() {
         // FIXME: Replace this line with your code.
-        while (colName1.) {
-
-        }
-        return false;
+        return colName1.equals(colName2);
     }
 
     // FIXME: Add instance variables?

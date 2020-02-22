@@ -1,7 +1,8 @@
 import java.io.IOException;
+import java.io.StringReader;
 
 /** String translation.
- *  @author your name here
+ *  @author Matthew Sahim
  */
 public class Translate {
     /** This method should return the String S, but with all characters that
@@ -11,11 +12,14 @@ public class Translate {
     static String translate(String S, String from, String to) {
         /* NOTE: The try {...} catch is a technicality to keep Java happy. */
         char[] buffer = new char[S.length()];
+        StringReader s = new StringReader(S);
         try {
-            throw new IOException(); //TODO: REPLACE THIS LINE WITH YOUR CODE.
+            TrReader r = new TrReader(s, from, to);
+            r.read(buffer, 0 , S.length());
         } catch (IOException e) {
             return null;
         }
+        return new String(buffer);
     }
     /*
        REMINDER: translate must

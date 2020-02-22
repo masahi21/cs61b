@@ -3,12 +3,15 @@ class WeirdListClient {
 
     /** Return the result of adding N to each element of L. */
     static WeirdList add(WeirdList L, int n) {
-        return null; // TODO: REPLACE THIS LINE
+        Add result = new Add(n);
+        return L.map(result);
     }
 
     /** Return the sum of all the elements in L. */
     static int sum(WeirdList L) {
-        return 0; // TODO: REPLACE THIS LINE
+        Sum s = new Sum();
+        L.map(s);
+        return s.total;
     }
 
     /* IMPORTANT: YOU ARE NOT ALLOWED TO USE RECURSION IN ADD AND SUM
@@ -24,4 +27,22 @@ class WeirdListClient {
      * HINT: Try checking out the IntUnaryFunction interface.
      *       Can we use it somehow?
      */
+    private static class Add implements IntUnaryFunction {
+        public int plus;
+        public Add(int num) {
+            plus = num;
+        }
+        public int apply(int head) {
+            head += plus;
+            return head;
+        }
+    }
+
+    private static class Sum implements IntUnaryFunction {
+        public int total;
+        public int apply(int x) {
+            total += x;
+            return x;
+        }
+    }
 }
