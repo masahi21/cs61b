@@ -15,7 +15,7 @@ public class SubstringFilter extends TableFilter {
     @Override
     protected boolean keep() {
         // FIXME: Replace this line with your code.
-        return false;
+        return colName.contains(subStr);
     }
 
     // FIXME: Add instance variables?

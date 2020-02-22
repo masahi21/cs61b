@@ -15,7 +15,8 @@ public class GreaterThanFilter extends TableFilter {
     @Override
     protected boolean keep() {
         // FIXME: Replace this line with your code.
-        return false;
+        return colNameToIndex(colName) > ref;
+
     }
 
     // FIXME: Add instance variables?

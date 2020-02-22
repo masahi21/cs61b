@@ -16,8 +16,7 @@ public class EqualityFilter extends TableFilter {
     @Override
     protected boolean keep() {
         // FIXME: Replace this line with your code.
-
-        return false;
+        return colName.equals(match);
     }
 
     // FIXME: Add instance variables?
