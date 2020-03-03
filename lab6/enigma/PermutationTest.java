@@ -83,4 +83,11 @@ public abstract class PermutationTest {
     }
 
     // FIXME: Add tests here that pass on a correct Permutation and fail on buggy Permutations.
+
+    @Test
+    public void testInvertChar() {
+        Permutation p = getNewPermutation("(BACD", getNewAlphabet("ABCD"));
+
+    }
+
 }
