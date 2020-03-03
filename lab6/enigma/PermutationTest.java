@@ -87,7 +87,8 @@ public abstract class PermutationTest {
     @Test
     public void testInvertChar() {
         Permutation p = getNewPermutation("(BACD", getNewAlphabet("ABCD"));
-
+        assertEquals('B', p.invert('A'));
+        assertEquals('A', p.invert('B'));
     }
 
 }
