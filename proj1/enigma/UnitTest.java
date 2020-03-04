@@ -3,7 +3,7 @@ package enigma;
 import ucb.junit.textui;
 
 /** The suite of all JUnit tests for the enigma package.
- *  @author
+ *  @author Matthew Sahim
  */
 public class UnitTest {
 

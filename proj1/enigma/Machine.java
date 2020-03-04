@@ -6,7 +6,7 @@ import java.util.Collection;
 import static enigma.EnigmaException.*;
 
 /** Class that represents a complete enigma machine.
- *  @author
+ *  @author Matthew Sahim
  */
 class Machine {
 
@@ -39,7 +39,7 @@ class Machine {
      *  Initially, all rotors are set at their 0 setting. */
     void insertRotors(String[] rotors) {
         // FIXME
-        rotorArr = new Rotor(numRotors());
+        rotorArr = new Rotor[numRotors()];
         HashMap<String, Rotor> rotorMap = new HashMap<String, Rotor>();
         for (Rotor currRotor : _allRotors) {
             rotorMap.put(currRotor.name().toUpperCase(), currRotor);
@@ -74,13 +74,46 @@ class Machine {
      *  the machine. */
     int convert(int c) {
         // FIXME
-        boolean[] advance = new boolean[rotorArr.length];
+        boolean[] advance = new boolean[rotorArr.length - 1];
+        rotorArr[rotorArr.length - 1].advance();
+        advance[rotorArr.length - 2] = true;
+        for (int i = rotorArr.length - 1; i > 0; i--) {
+            if ((advance[i - 1]) && (rotorArr[i - 1].rotates())
+                && ((rotorArr[i].atNotch()) || (rotorArr[i - 1].atNotch()))) {
+                rotorArr[i - 1].advance();
+                advance[i - 2] = true;
+            }
+        }
+        int convertOut = _plugboard.permute(c);
+        for (int j = rotorArr.length - 1; j > 0; j--) {
+            convertOut = rotorArr[j].convertForward(convertOut);
+        }
+        for (int k = 1; k < rotorArr.length; k += 1) {
+            convertOut = rotorArr[k].convertBackward(convertOut);
+        }
+        convertOut = _plugboard.permute(convertOut);
+        return convertOut;
     }
 
     /** Returns the encoding/decoding of MSG, updating the state of
      *  the rotors accordingly. */
     String convert(String msg) {
-        return ""; // FIXME
+        // FIXME
+        msg = msg.replaceAll(" ", "");
+        String[] msgArr = msg.split("");
+        int[] intArr = new int[msgArr.length];
+        for (int i = 0; i < msgArr.length; i++) {
+            intArr[i] = _alphabet.toInt(msgArr[i].charAt(0));
+        }
+        String[] msgArrOut = new String[intArr.length];
+        for (int j = 0; j < msgArr.length; j++) {
+            msgArrOut[j] = Character.toString(_alphabet.toChar(convert(intArr[j])));
+        }
+        String converted = "";
+        for (int k = 0; k < msgArrOut.length; k++) {
+            converted += msgArrOut[k];
+        }
+        return converted;
     }
 
     /** Common alphabet of my rotors. */
