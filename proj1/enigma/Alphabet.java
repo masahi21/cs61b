@@ -2,7 +2,7 @@ package enigma;
 
 /** An alphabet of encodable characters.  Provides a mapping from characters
  *  to and from indices into the alphabet.
- *  @author
+ *  @author Matthew Sahim
  */
 class Alphabet {
 

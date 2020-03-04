@@ -17,16 +17,21 @@ class Machine {
             Collection<Rotor> allRotors) {
         _alphabet = alpha;
         // FIXME
+        _numRotors = numRotors;
+        _pawls = pawls;
+        _allRotors = allRotors;
     }
 
     /** Return the number of rotor slots I have. */
     int numRotors() {
-        return 0; // FIXME
+        // FIXME
+        return _numRotors;
     }
 
     /** Return the number pawls (and thus rotating rotors) I have. */
     int numPawls() {
-        return 0; // FIXME
+        // FIXME
+        return _pawls;
     }
 
     /** Set my rotor slots to the rotors named ROTORS from my set of
@@ -34,6 +39,17 @@ class Machine {
      *  Initially, all rotors are set at their 0 setting. */
     void insertRotors(String[] rotors) {
         // FIXME
+        rotorArr = new Rotor(numRotors());
+        HashMap<String, Rotor> rotorMap = new HashMap<String, Rotor>();
+        for (Rotor currRotor : _allRotors) {
+            rotorMap.put(currRotor.name().toUpperCase(), currRotor);
+        }
+        for (int i = 0; i < rotors.length; i++) {
+            String rotorKey = rotors[i];
+            if (rotorMap.containsKey(rotorKey)) {
+                rotorArr[i] = rotorMap.get(rotorKey);
+            }
+        }
     }
 
     /** Set my rotors according to SETTING, which must be a string of
@@ -41,11 +57,15 @@ class Machine {
      *  to the leftmost rotor setting (not counting the reflector).  */
     void setRotors(String setting) {
         // FIXME
+        for (int i = 1; i < rotorArr.length; i++) {
+            rotorArr[i].set(setting.charAt(i - 1));
+        }
     }
 
     /** Set the plugboard to PLUGBOARD. */
     void setPlugboard(Permutation plugboard) {
         // FIXME
+        _plugboard = plugboard;
     }
 
     /** Returns the result of converting the input character C (as an
@@ -53,7 +73,8 @@ class Machine {
 
      *  the machine. */
     int convert(int c) {
-        return 0; // FIXME
+        // FIXME
+        boolean[] advance = new boolean[rotorArr.length];
     }
 
     /** Returns the encoding/decoding of MSG, updating the state of
@@ -66,4 +87,9 @@ class Machine {
     private final Alphabet _alphabet;
 
     // FIXME: ADDITIONAL FIELDS HERE, IF NEEDED.
+    private final int _numRotors;
+    private final int _pawls;
+    private Permutation _plugboard;
+    private Collection<Rotor> _allRotors;
+    private Rotor[] rotorArr;
 }
