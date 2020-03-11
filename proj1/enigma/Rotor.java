@@ -1,7 +1,5 @@
 package enigma;
 
-import static enigma.EnigmaException.*;
-
 /** Superclass that represents a rotor in the enigma machine.
  *  @author Matthew Sahim
  */
@@ -12,7 +10,6 @@ class Rotor {
         _name = name;
         _permutation = perm;
         _setting = 0;
-        // FIXME
     }
 
     /** Return my name. */
@@ -52,35 +49,36 @@ class Rotor {
 
     /** Set setting() to POSN.  */
     void set(int posn) {
-        // FIXME
         _setting = posn;
     }
 
     /** Set setting() to character CPOSN. */
     void set(char cposn) {
-        // FIXME
-        int intcposn = _permutation.alphabet().toInt(cposn);
-        _setting = intcposn;
+        int intposn = _permutation.alphabet().toInt(cposn);
+        _setting = intposn;
+    }
+
+    /** Return the value of P modulo the input SIZE. */
+    int mod(int p, int size) {
+        int r = p % size;
+        if (r < 0) {
+            r += size;
+        }
+        return r;
     }
 
     /** Return the conversion of P (an integer in the range 0..size()-1)
      *  according to my permutation. */
     int convertForward(int p) {
-        // FIXME
-        int convertIn = _permutation.wrap(p + _setting);
-        int convertOut = _permutation.permute(convertIn);
-        int conversion = _permutation.wrap(convertOut - _setting);
-        return conversion;
+        int result = _permutation.permute(p + _setting % size());
+        return mod(result - _setting, size());
     }
 
     /** Return the conversion of E (an integer in the range 0..size()-1)
      *  according to the inverse of my permutation. */
     int convertBackward(int e) {
-        // FIXME
-        int convertIn = _permutation.wrap(e + _setting);
-        int convertOut = _permutation.invert(convertIn);
-        int conversion = _permutation.wrap(convertOut - _setting);
-        return conversion;
+        int result = _permutation.invert(e + _setting % size());
+        return mod(result - _setting, size());
     }
 
     /** Returns true iff I am positioned to allow the rotor to my left
@@ -104,8 +102,7 @@ class Rotor {
     /** The permutation implemented by this rotor in its 0 position. */
     private Permutation _permutation;
 
-    // FIXME: ADDITIONAL FIELDS HERE, AS NEEDED
+    /** The setting implemented by the rotor at the current stage. */
     private int _setting;
-    private Alphabet _alphabet;
 
 }

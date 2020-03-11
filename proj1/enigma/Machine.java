@@ -1,6 +1,5 @@
 package enigma;
 
-import java.util.HashMap;
 import java.util.Collection;
 
 import static enigma.EnigmaException.*;
@@ -16,39 +15,40 @@ class Machine {
     Machine(Alphabet alpha, int numRotors, int pawls,
             Collection<Rotor> allRotors) {
         _alphabet = alpha;
-        // FIXME
         _numRotors = numRotors;
         _pawls = pawls;
-        _allRotors = allRotors;
+        _allRotors = allRotors.toArray();
+        _rotorArr = new Rotor[numRotors];
     }
 
     /** Return the number of rotor slots I have. */
     int numRotors() {
-        // FIXME
         return _numRotors;
     }
 
     /** Return the number pawls (and thus rotating rotors) I have. */
     int numPawls() {
-        // FIXME
         return _pawls;
+    }
+
+    /** Return the array of rotors I have. */
+    Rotor[] rotorArr() {
+        return _rotorArr;
     }
 
     /** Set my rotor slots to the rotors named ROTORS from my set of
      *  available rotors (ROTORS[0] names the reflector).
      *  Initially, all rotors are set at their 0 setting. */
     void insertRotors(String[] rotors) {
-        // FIXME
-        rotorArr = new Rotor[numRotors()];
-        HashMap<String, Rotor> rotorMap = new HashMap<String, Rotor>();
-        for (Rotor currRotor : _allRotors) {
-            rotorMap.put(currRotor.name().toUpperCase(), currRotor);
-        }
         for (int i = 0; i < rotors.length; i++) {
-            String rotorKey = rotors[i];
-            if (rotorMap.containsKey(rotorKey)) {
-                rotorArr[i] = rotorMap.get(rotorKey);
+            for (int j = 0; j < _allRotors.length; j++) {
+                if ((rotors[i].toString()).equals((((Rotor) _allRotors[j]).name()))) {
+                    _rotorArr[i] = (Rotor) _allRotors[j];
+                }
             }
+        }
+        if (_rotorArr.length != rotors.length) {
+            throw new EnigmaException("Misnamed rotors");
         }
     }
 
@@ -56,15 +56,16 @@ class Machine {
      *  numRotors()-1 characters in my alphabet. The first letter refers
      *  to the leftmost rotor setting (not counting the reflector).  */
     void setRotors(String setting) {
-        // FIXME
-        for (int i = 1; i < rotorArr.length; i++) {
-            rotorArr[i].set(setting.charAt(i - 1));
+        if (setting.length() != _numRotors - 1) {
+            throw error("Incorrect length.");
+        }
+        for (int i = 1; i < _rotorArr.length; i++) {
+            _rotorArr[i].set(setting.charAt(i - 1));
         }
     }
 
     /** Set the plugboard to PLUGBOARD. */
     void setPlugboard(Permutation plugboard) {
-        // FIXME
         _plugboard = plugboard;
     }
 
@@ -73,23 +74,22 @@ class Machine {
 
      *  the machine. */
     int convert(int c) {
-        // FIXME
-        boolean[] advance = new boolean[rotorArr.length - 1];
-        rotorArr[rotorArr.length - 1].advance();
-        advance[rotorArr.length - 2] = true;
-        for (int i = rotorArr.length - 1; i > 0; i--) {
-            if ((advance[i - 1]) && (rotorArr[i - 1].rotates())
-                && ((rotorArr[i].atNotch()) || (rotorArr[i - 1].atNotch()))) {
-                rotorArr[i - 1].advance();
+        boolean[] advance = new boolean[_rotorArr.length - 1];
+        _rotorArr[_rotorArr.length - 1].advance();
+        advance[_rotorArr.length - 2] = true;
+        for (int i = _rotorArr.length - 1; i > 0; i--) {
+            if ((advance[i - 1]) && (_rotorArr[i - 1].rotates())
+                && ((_rotorArr[i].atNotch()) || (_rotorArr[i - 1].atNotch()))) {
+                _rotorArr[i - 1].advance();
                 advance[i - 2] = true;
             }
         }
         int convertOut = _plugboard.permute(c);
-        for (int j = rotorArr.length - 1; j > 0; j--) {
-            convertOut = rotorArr[j].convertForward(convertOut);
+        for (int j = _rotorArr.length - 1; j > 0; j--) {
+            convertOut = _rotorArr[j].convertForward(convertOut);
         }
-        for (int k = 1; k < rotorArr.length; k += 1) {
-            convertOut = rotorArr[k].convertBackward(convertOut);
+        for (int k = 1; k < _rotorArr.length; k += 1) {
+            convertOut = _rotorArr[k].convertBackward(convertOut);
         }
         convertOut = _plugboard.permute(convertOut);
         return convertOut;
@@ -98,31 +98,29 @@ class Machine {
     /** Returns the encoding/decoding of MSG, updating the state of
      *  the rotors accordingly. */
     String convert(String msg) {
-        // FIXME
-        msg = msg.replaceAll(" ", "");
-        String[] msgArr = msg.split("");
-        int[] intArr = new int[msgArr.length];
-        for (int i = 0; i < msgArr.length; i++) {
-            intArr[i] = _alphabet.toInt(msgArr[i].charAt(0));
+        String result = "";
+        for (int i = 0; i < msg.length(); i++) {
+            char converted = _alphabet.toChar(convert(_alphabet.toInt(msg.charAt(i))));
+            result += converted;
         }
-        String[] msgArrOut = new String[intArr.length];
-        for (int j = 0; j < msgArr.length; j++) {
-            msgArrOut[j] = Character.toString(_alphabet.toChar(convert(intArr[j])));
-        }
-        String converted = "";
-        for (int k = 0; k < msgArrOut.length; k++) {
-            converted += msgArrOut[k];
-        }
-        return converted;
+        return result;
     }
 
     /** Common alphabet of my rotors. */
     private final Alphabet _alphabet;
 
-    // FIXME: ADDITIONAL FIELDS HERE, IF NEEDED.
+    /** Total number of rotors. */
     private final int _numRotors;
+
+    /** Total number of pawls. */
     private final int _pawls;
+
+    /** The array of rotors that formats the machine. */
+    private Rotor[] _rotorArr;
+
+    /** The initial plugboard which includes steckered pairs. */
     private Permutation _plugboard;
-    private Collection<Rotor> _allRotors;
-    private Rotor[] rotorArr;
+
+    /** An ArrayList containing all possible rotors that can be used. */
+    private Object[] _allRotors;
 }

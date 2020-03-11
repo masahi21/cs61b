@@ -1,7 +1,5 @@
 package enigma;
 
-import static enigma.EnigmaException.*;
-
 /** Class that represents a rotor that has no ratchet and does not advance.
  *  @author Matthew Sahim
  */
@@ -13,7 +11,6 @@ class FixedRotor extends Rotor {
         super(name, perm);
     }
 
-    // FIXME ?
     /* Fixed rotors do not advance. */
     @Override
     void advance() {
