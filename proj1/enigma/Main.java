@@ -166,24 +166,23 @@ public final class Main {
     /** Set M according to the specification given on SETTINGS,
      *  which must have the format specified in the assignment. */
     private void setUp(Machine M, String settings) {
+        M.setRotors(settings);
+        /*
         String[] set = settings.split(" ");
         if (set.length - 1 < M.numRotors()) {
-            throw new EnigmaException("Not enough arguments in setting");
+            throw new EnigmaException("Not enough arguments in setting.");
         }
-
         String[] rotors = new String[M.numRotors()];
         for (int i = 1; i < M.numRotors() + 1; i++) {
             rotors[i - 1] = set[i];
         }
-
         for (int i = 0; i < rotors.length - 1; i++) {
             for (int j = i + 1; j < rotors.length; j++) {
                 if (rotors[i].equals(rotors[j])) {
-                    throw new EnigmaException("Repeated Rotor");
+                    throw new EnigmaException("Repeated Rotor.");
                 }
             }
         }
-
         String cycle = "";
         for (int i = 7; i < set.length; i++) {
             cycle = cycle.concat(set[i] + " ");
@@ -194,6 +193,7 @@ public final class Main {
         }
         M.setRotors(set[M.numRotors() + 1]);
         M.setPlugboard(new Permutation(cycle, _alphabet));
+        */
     }
 
     /** Print MSG in groups of five (except that the last group may

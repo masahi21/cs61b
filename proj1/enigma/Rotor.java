@@ -54,8 +54,7 @@ class Rotor {
 
     /** Set setting() to character CPOSN. */
     void set(char cposn) {
-        int intposn = _permutation.alphabet().toInt(cposn);
-        _setting = intposn;
+        _setting = _permutation.alphabet().toInt(cposn);
     }
 
     /** Return the value of P modulo the input SIZE. */

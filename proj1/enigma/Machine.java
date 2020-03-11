@@ -1,5 +1,6 @@
 package enigma;
 
+import java.util.HashMap;
 import java.util.Collection;
 
 import static enigma.EnigmaException.*;
@@ -17,7 +18,7 @@ class Machine {
         _alphabet = alpha;
         _numRotors = numRotors;
         _pawls = pawls;
-        _allRotors = allRotors.toArray();
+        _allRotors = allRotors;
         _rotorArr = new Rotor[numRotors];
     }
 
@@ -33,23 +34,25 @@ class Machine {
 
     /** Return the array of rotors I have. */
     Rotor[] rotorArr() {
-        return _rotorArr;
+        return rotorArr;
     }
 
     /** Set my rotor slots to the rotors named ROTORS from my set of
      *  available rotors (ROTORS[0] names the reflector).
      *  Initially, all rotors are set at their 0 setting. */
     void insertRotors(String[] rotors) {
-        for (int i = 0; i < rotors.length; i++) {
-            for (int j = 0; j < _allRotors.length; j++) {
-                if ((rotors[i].toString()).equals((((Rotor) _allRotors[j]).name()))) {
-                    _rotorArr[i] = (Rotor) _allRotors[j];
-                }
+        rotorArr = new Rotor[numRotors()];
+        HashMap<String, Rotor> rotorsMap = new HashMap<String, Rotor>();
+        for (Rotor theRotor : _allRotors) {
+            rotorsMap.put(theRotor.name().toUpperCase(), theRotor);
+        }
+        for (int i = 0; i < rotors.length; i += 1) {
+            String searchKey = rotors[i];
+            if (rotorsMap.containsKey(searchKey)) {
+                rotorArr[i] = rotorsMap.get(searchKey);
             }
         }
-        if (_rotorArr.length != rotors.length) {
-            throw new EnigmaException("Misnamed rotors");
-        }
+
     }
 
     /** Set my rotors according to SETTING, which must be a string of
@@ -59,8 +62,8 @@ class Machine {
         if (setting.length() != _numRotors - 1) {
             throw error("Incorrect length.");
         }
-        for (int i = 1; i < _rotorArr.length; i++) {
-            _rotorArr[i].set(setting.charAt(i - 1));
+        for (int i = 1; i < rotorArr.length; i++) {
+            rotorArr[i].set(setting.charAt(i - 1));
         }
     }
 
@@ -122,5 +125,7 @@ class Machine {
     private Permutation _plugboard;
 
     /** An ArrayList containing all possible rotors that can be used. */
-    private Object[] _allRotors;
+    //private Object[] _allRotors;
+    private Rotor[] rotorArr;
+    private Collection<Rotor> _allRotors;
 }
