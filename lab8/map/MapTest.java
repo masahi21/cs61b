@@ -26,8 +26,8 @@ public class MapTest {
             solnMap.put(keys[i], values[i]);
         }
         for (Integer i : solnMap.keySet()) {
-            int otherResult = otherMap.get(i);
-            int solnResult = solnMap.get(i);
+            Integer otherResult = otherMap.get(i);
+            Integer solnResult = solnMap.get(i);
             assertEquals("Incorrect value contained in map.", solnResult, otherResult);
         }
     }
@@ -48,8 +48,8 @@ public class MapTest {
             solnMap.put(key, val);
         }
         for (Integer i : solnMap.keySet()) {
-            int otherResult = otherMap.get(i);
-            int solnResult = solnMap.get(i);
+            Integer otherResult = otherMap.get(i);
+            Integer solnResult = solnMap.get(i);
             assertEquals("Incorrect value contained in map.", solnResult, otherResult);
         }
     }
@@ -78,8 +78,8 @@ public class MapTest {
 
 
             for (Integer i : solnMap.keySet()) {
-                int otherResult = otherMap.get(i);
-                int solnResult = solnMap.get(i);
+                Integer otherResult = otherMap.get(i);
+                Integer solnResult = solnMap.get(i);
                 assertEquals("Incorrect value contained in map.", solnResult, otherResult);
             }
 
@@ -88,10 +88,10 @@ public class MapTest {
             timing.Timer t = new timing.Timer();
             for (Integer i : solnMap.keySet()) {
                 t.start();
-                int otherResult = otherMap.get(i);
+                Integer otherResult = otherMap.get(i);
                 otherTime += t.elapsed();
                 t.start();
-                int solnResult = solnMap.get(i);
+                Integer solnResult = solnMap.get(i);
                 solnTime += t.elapsed();
                 assertEquals("Incorrect value contained in map.", solnResult, otherResult);
             }
