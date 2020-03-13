@@ -95,6 +95,11 @@ class Rotor {
         return "Rotor " + _name;
     }
 
+    /** Returns true iff I am positioned to allow the rotor to my left
+     *  to advance. */
+    boolean trythis() {
+        return false;
+    }
     /** My name. */
     private final String _name;
 

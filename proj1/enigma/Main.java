@@ -107,13 +107,7 @@ public final class Main {
                 }
             }
         }
-        try {
-            while (_input.nextLine().isEmpty()) {
-                _output.println();
-            }
-        } catch (NoSuchElementException e) {
-            throw error("incorrect format.");
-        }
+
     }
 
     /** Return an Enigma machine configured from the contents of configuration
@@ -163,9 +157,11 @@ public final class Main {
                 return new MovingRotor(currRotor,
                         new Permutation(perm, _alphabet), notches.substring(1));
             } else if (notches.charAt(0) == 'N') {
-                return new FixedRotor(currRotor, new Permutation(perm, _alphabet));
+                return new FixedRotor(currRotor,
+                        new Permutation(perm, _alphabet));
             } else {
-                return new Reflector(currRotor, new Permutation(perm, _alphabet));
+                return new Reflector(currRotor,
+                        new Permutation(perm, _alphabet));
             }
         } catch (NoSuchElementException excp) {
             throw error("bad rotor description");
@@ -175,34 +171,34 @@ public final class Main {
     /** Set M according to the specification given on SETTINGS,
      *  which must have the format specified in the assignment. */
     private void setUp(Machine M, String settings) {
-        String[] uniq = settings.split(" ");
-        String[] copyRotors = new String[M.numRotors()];
-        if (M.numRotors() >= 0) {
-            System.arraycopy(uniq, 1, copyRotors, 0, M.numRotors());
+        String[] set = settings.split(" ");
+        if (set.length - 1 < M.numRotors()) {
+            throw new EnigmaException("Not enough arguments in setting");
         }
-        for (int i = 0; i < copyRotors.length - 1; i++) {
-            for (int j = i + 1; j < copyRotors.length; j++) {
-                if (copyRotors[i].equals(copyRotors[j])) {
-                    throw new EnigmaException("Rotor is repeated.");
+
+        String[] rotors = new String[M.numRotors()];
+        for (int i = 1; i < M.numRotors()+1; i++) {
+            rotors[i-1] = set[i];
+        }
+
+        for (int i = 0; i < rotors.length - 1; i++) {
+            for (int j = i + 1; j < rotors.length; j++) {
+                if (rotors[i].equals(rotors[j])) {
+                    throw new EnigmaException("Repeated Rotor");
                 }
             }
         }
-        String plugboardVals = "";
-        for (int i = Math.max(uniq.length - 1, 7); i < uniq.length; i++) {
-            if (uniq[i].startsWith("(")) {
-                plugboardVals = plugboardVals.concat(uniq[i] + " ");
-            }
+
+        String steckered = "";
+        for (int i = 7; i < set.length; i++) {
+            steckered = steckered.concat(set[i] + " ");
         }
-        M.insertRotors(copyRotors);
-        if (!M.get0().reflecting()) {
-            throw error("The init rotor should be a reflector.");
+        M.insertRotors(rotors);
+        if (M.get0().reflecting() != true) {
+            throw new EnigmaException("First Rotor should be a reflector");
         }
-        try {
-            M.setRotors(uniq[M.numRotors() + 1]);
-            M.setPlugboard(new Permutation(plugboardVals, _alphabet));
-        } catch (IndexOutOfBoundsException e) {
-            throw error("Incorrect format or wrong length.");
-        }
+        M.setRotors(set[M.numRotors()+1]);
+        M.setPlugboard(new Permutation(steckered, _alphabet));
     }
 
     /** Print MSG in groups of five (except that the last group may

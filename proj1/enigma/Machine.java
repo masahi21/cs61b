@@ -55,6 +55,8 @@ class Machine {
             }
         }
     }
+
+    /** returns init rotor of my rotor array. */
     public Rotor get0() {
         return _rotorArr[0];
     }
@@ -69,47 +71,43 @@ class Machine {
 
      *  the machine. */
     int convert(int c) {
-        boolean[] advance = new boolean[_numRotors];
-        for (int i = 0; i < _numRotors - 1; i++) {
-            if (_rotorArr[i].rotates() && _rotorArr[i + 1].atNotch()) {
-                if (!advance[i]) {
-                    _rotorArr[i].advance();
-                    advance[i] = true;
-                }
-                if (!advance[i + 1]) {
-                    _rotorArr[i + 1].advance();
-                    advance[i + 1] = true;
-                }
-            }
+        boolean rotor_4 = false;
+        boolean rotor_3 = false;
+        if (_rotorArr[4].atNotch()) {
+            rotor_4 = true;
         }
-        if (!advance[_rotorArr.length - 1]) {
-            _rotorArr[_rotorArr.length - 1].advance();
+        if (_rotorArr[3].atNotch()) {
+            rotor_3 = true;
         }
-        for (int i = 0; i < _numRotors; i++) {
-            System.out.print(_alphabet.toChar(_rotorArr[i].setting()));
+        if (rotor_4 == true) {
+            _rotorArr[3].advance();
         }
-        System.out.println();
-        int curr = c;
-        curr = _plugboard.permute(curr);
-        for (int i = _numRotors - 1; i >= 0; i--) {
-            curr = _rotorArr[i].convertForward(curr);
+        if (rotor_3 == true) {
+            _rotorArr[2].advance();
+            _rotorArr[3].advance();
+        }
+        _rotorArr[_numRotors-1].advance();
+
+        int result = _plugboard.permute(c);
+        for (int i = _numRotors-1; i >= 0; i--) {
+            result = _rotorArr[i].convertForward(result);
         }
         for (int i = 1; i < _numRotors; i++) {
-            curr = _rotorArr[i].convertBackward(curr);
+            result = _rotorArr[i].convertBackward(result);
         }
-        curr = _plugboard.invert(curr);
-        return curr;
+        result = _plugboard.permute(result);
+        return result;
     }
 
     /** Returns the encoding/decoding of MSG, updating the state of
      *  the rotors accordingly. */
     String convert(String msg) {
-        StringBuilder output = new StringBuilder();
-        for (int count = 0; count < msg.length(); count++) {
-            int curr = convert(_alphabet.toInt(msg.charAt(count)));
-            output.append(_alphabet.toChar(curr));
+        String result = "";
+        for (int i = 0; i < msg.length(); i++) {
+            char converted = _alphabet.toChar(convert(_alphabet.toInt(msg.charAt(i))));
+            result += converted;
         }
-        return output.toString();
+        return result;
     }
 
     /** Common alphabet of my rotors. */

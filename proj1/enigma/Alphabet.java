@@ -52,5 +52,6 @@ class Alphabet {
         }
         throw error("Character not in alphabet.");
     }
+    /** Returns the string of characters. */
     private String _chars;
 }

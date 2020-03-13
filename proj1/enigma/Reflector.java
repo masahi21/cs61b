@@ -13,6 +13,7 @@ class Reflector extends FixedRotor {
         super(name, perm);
     }
 
+    /** Returns reflection of rotor. */
     boolean reflecting() {
         return true;
     }
