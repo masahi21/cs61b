@@ -94,7 +94,8 @@ public final class Main {
                 nextLn = _input.nextLine();
             }
             while (!(nextLn.contains("*"))) {
-                String result = enigma.convert(nextLn.replaceAll(" ", ""));
+                String result =
+                        enigma.convert(nextLn.replaceAll(" ", ""));
                 if (nextLn.isEmpty()) {
                     _output.println();
                 } else {
@@ -177,8 +178,8 @@ public final class Main {
         }
 
         String[] rotors = new String[M.numRotors()];
-        for (int i = 1; i < M.numRotors()+1; i++) {
-            rotors[i-1] = set[i];
+        for (int i = 1; i < M.numRotors() + 1; i++) {
+            rotors[i - 1] = set[i];
         }
 
         for (int i = 0; i < rotors.length - 1; i++) {
@@ -194,10 +195,10 @@ public final class Main {
             steckered = steckered.concat(set[i] + " ");
         }
         M.insertRotors(rotors);
-        if (M.get0().reflecting() != true) {
+        if (!M.get0().reflecting()) {
             throw new EnigmaException("First Rotor should be a reflector");
         }
-        M.setRotors(set[M.numRotors()+1]);
+        M.setRotors(set[M.numRotors() + 1]);
         M.setPlugboard(new Permutation(steckered, _alphabet));
     }
 

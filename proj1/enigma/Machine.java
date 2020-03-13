@@ -71,25 +71,25 @@ class Machine {
 
      *  the machine. */
     int convert(int c) {
-        boolean rotor_4 = false;
-        boolean rotor_3 = false;
+        boolean rotor4 = false;
+        boolean rotor3 = false;
         if (_rotorArr[4].atNotch()) {
-            rotor_4 = true;
+            rotor4 = true;
         }
         if (_rotorArr[3].atNotch()) {
-            rotor_3 = true;
+            rotor3 = true;
         }
-        if (rotor_4 == true) {
+        if (rotor4) {
             _rotorArr[3].advance();
         }
-        if (rotor_3 == true) {
+        if (rotor3) {
             _rotorArr[2].advance();
             _rotorArr[3].advance();
         }
-        _rotorArr[_numRotors-1].advance();
+        _rotorArr[_numRotors - 1].advance();
 
         int result = _plugboard.permute(c);
-        for (int i = _numRotors-1; i >= 0; i--) {
+        for (int i = _numRotors - 1; i >= 0; i--) {
             result = _rotorArr[i].convertForward(result);
         }
         for (int i = 1; i < _numRotors; i++) {
@@ -104,7 +104,8 @@ class Machine {
     String convert(String msg) {
         String result = "";
         for (int i = 0; i < msg.length(); i++) {
-            char converted = _alphabet.toChar(convert(_alphabet.toInt(msg.charAt(i))));
+            char converted =
+                    _alphabet.toChar(convert(_alphabet.toInt(msg.charAt(i))));
             result += converted;
         }
         return result;
