@@ -25,7 +25,12 @@ class Alphabet {
 
     /** Returns true if CH is in this alphabet. */
     boolean contains(char ch) {
-        return _chars.contains(String.valueOf(ch));
+        for (int i = 0; i < size(); i++) {
+            if (_chars.charAt(i) == ch) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /** Returns character number INDEX in the alphabet, where

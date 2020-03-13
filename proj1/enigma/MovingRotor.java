@@ -23,7 +23,8 @@ class MovingRotor extends Rotor {
     @Override
     boolean atNotch() {
         for (int i = 0; i < _notches.length(); i++) {
-            if (alphabet().toInt(_notches.charAt(i)) == this.setting()) {
+            if (_notches.charAt(i)
+                    == this.permutation().alphabet().toChar(this.setting())) {
                 return true;
             }
         }
@@ -32,7 +33,7 @@ class MovingRotor extends Rotor {
 
     @Override
     void advance() {
-        this.set(this.setting() + 1);
+        this.set(permutation().wrap(this.setting() + 1));
     }
 
     /** String containing notches of the Rotor. */

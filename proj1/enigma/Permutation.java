@@ -57,16 +57,12 @@ class Permutation {
      * alphabet size.
      */
     int permute(int p) {
-        char c = _alphabet.toChar(wrap(p));
-        char newChar = '0';
+        char changed = _alphabet.toChar(wrap(p));
         for (int i = 0; i < _cycles.length; i++) {
             for (int j = 0; j < _cycles[i].length(); j++) {
-                if (_cycles[i].charAt(j) == c) {
-                    newChar = _cycles[i].charAt((j + 1) % _cycles[i].length());
-                    /**if (j+1 == _cycles[i].length() - 1) {
-                     newChar = _cycles[i].charAt(1);
-                     }*/
-                    return _alphabet.toInt(newChar);
+                if (_cycles[i].charAt(j) == changed) {
+                    int temp = mod(j + 1, _cycles[i].length());
+                    return _alphabet.toInt(_cycles[i].charAt(temp));
                 }
             }
         }
@@ -90,16 +86,12 @@ class Permutation {
      * to  C modulo the alphabet size.
      */
     int invert(int c) {
-        char n = _alphabet.toChar(wrap(c));
-        char newChar = '0';
+        char changed = _alphabet.toChar(wrap(c));
         for (int i = 0; i < _cycles.length; i++) {
             for (int j = 0; j < _cycles[i].length(); j++) {
-                if (_cycles[i].charAt(j) == n) {
-                    newChar = _cycles[i].charAt(mod(j - 1, _cycles[i].length()));
-                    /**if (j-1 == 0) {
-                     newChar = _cycles[i].charAt(_cycles[i].length() - 2);
-                     }*/
-                    return _alphabet.toInt(newChar);
+                if (_cycles[i].charAt(j) == changed) {
+                    int temp = mod(j - 1, _cycles[i].length());
+                    return _alphabet.toInt(_cycles[i].charAt(temp));
                 }
             }
         }
@@ -111,16 +103,14 @@ class Permutation {
      * in ALPHABET, and converting the result to a character of ALPHABET.
      */
     char permute(char p) {
-        int index = _alphabet.toInt(p);
-        return _alphabet.toChar(permute(index));
+        return _alphabet.toChar(permute(_alphabet.toInt(p)));
     }
 
     /**
      * Return the result of applying the inverse of this permutation to C.
      */
     char invert(char c) {
-        int index = _alphabet.toInt(c);
-        return _alphabet.toChar(invert(index));
+        return _alphabet.toChar(invert(_alphabet.toInt(c)));
     }
 
     /**
@@ -136,10 +126,10 @@ class Permutation {
      */
     boolean derangement() {
         int count = 0;
-        for (int i = 0; i < _cycles.length; i++) {
-            count += _cycles[i].length();
+        for (String s : _cycles) {
+            count += s.length();
         }
-        return (count == _alphabet.size());
+        return count == _alphabet.size();
     }
 
     /**

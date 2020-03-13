@@ -49,12 +49,12 @@ class Rotor {
 
     /** Set setting() to POSN.  */
     void set(int posn) {
-        _setting = posn;
+        _setting = _permutation.wrap(posn);
     }
 
     /** Set setting() to character CPOSN. */
     void set(char cposn) {
-        _setting = _permutation.alphabet().toInt(cposn);
+        _setting = alphabet().toInt(cposn);
     }
 
     /** Return the value of P modulo the input SIZE. */

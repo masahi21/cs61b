@@ -79,15 +79,19 @@ public final class Main {
     private void process() {
         Machine enigma = readConfig();
         String nextLn = _input.nextLine();
+        if (!nextLn.contains("*")) {
+            throw new EnigmaException("Wrong format.");
+        }
         while (_input.hasNext()) {
-            String setting = nextLn;
-            if (!setting.contains("*")) {
+            String settings = nextLn;
+            if (!settings.contains("*")) {
                 throw new EnigmaException("Wrong setting format.");
             }
-            setUp(enigma, setting);
-            nextLn = (_input.nextLine()).toUpperCase();
+            setUp(enigma, settings);
+            nextLn = _input.nextLine();
             while (nextLn.isEmpty()) {
-                nextLn = (_input.nextLine()).toUpperCase();
+                _output.println();
+                nextLn = _input.nextLine();
             }
             while (!(nextLn.contains("*"))) {
                 String result = enigma.convert(nextLn.replaceAll(" ", ""));
@@ -99,9 +103,16 @@ public final class Main {
                 if (!_input.hasNext()) {
                     nextLn = "*";
                 } else {
-                    nextLn = (_input.nextLine()).toUpperCase();
+                    nextLn = _input.nextLine();
                 }
             }
+        }
+        try {
+            while (_input.nextLine().isEmpty()) {
+                _output.println();
+            }
+        } catch (NoSuchElementException e) {
+            throw error("incorrect format.");
         }
     }
 
@@ -110,7 +121,8 @@ public final class Main {
     private Machine readConfig() {
         try {
             String alphabet = _config.next();
-            if (alphabet.contains("(") || alphabet.contains(")") || alphabet.contains("*")) {
+            if (alphabet.contains("(") || alphabet.contains(")")
+                    || alphabet.contains("*")) {
                 throw new EnigmaException("Wrong config format");
             }
             _alphabet = new Alphabet(alphabet);
@@ -123,15 +135,15 @@ public final class Main {
                 throw new EnigmaException("Wrong config format");
             }
             int pawls = _config.nextInt();
-            temp = (_config.next()).toUpperCase();
+            tempName = _config.next();
             while (_config.hasNext()) {
-                currRotor = temp;
-                notches = (_config.next()).toUpperCase();
+                currRotor = tempName;
+                notches = _config.next();
                 _allTheRotors.add(readRotor());
             }
             return new Machine(_alphabet, numRotors, pawls, _allTheRotors);
         } catch (NoSuchElementException excp) {
-            throw error("configuration file truncated");
+            throw error("Wrong format.");
         }
     }
 
@@ -139,15 +151,14 @@ public final class Main {
     private Rotor readRotor() {
         try {
             perm = "";
-            temp = (_config.next()).toUpperCase();
-            while (temp.contains("(") && _config.hasNext()) {
-                perm = perm.concat(temp + " ");
-                temp = (_config.next()).toUpperCase();
+            tempName = _config.next();
+            while (tempName.contains("(") && _config.hasNext()) {
+                perm = perm.concat(tempName + " ");
+                tempName = _config.next();
             }
             if (!_config.hasNext()) {
-                perm = perm.concat(temp + " ");
+                perm = perm.concat(tempName + " ");
             }
-
             if (notches.charAt(0) == 'M') {
                 return new MovingRotor(currRotor,
                         new Permutation(perm, _alphabet), notches.substring(1));
@@ -156,8 +167,6 @@ public final class Main {
             } else {
                 return new Reflector(currRotor, new Permutation(perm, _alphabet));
             }
-
-
         } catch (NoSuchElementException excp) {
             throw error("bad rotor description");
         }
@@ -166,34 +175,34 @@ public final class Main {
     /** Set M according to the specification given on SETTINGS,
      *  which must have the format specified in the assignment. */
     private void setUp(Machine M, String settings) {
-        M.setRotors(settings);
-        /*
-        String[] set = settings.split(" ");
-        if (set.length - 1 < M.numRotors()) {
-            throw new EnigmaException("Not enough arguments in setting.");
+        String[] uniq = settings.split(" ");
+        String[] copyRotors = new String[M.numRotors()];
+        if (M.numRotors() >= 0) {
+            System.arraycopy(uniq, 1, copyRotors, 0, M.numRotors());
         }
-        String[] rotors = new String[M.numRotors()];
-        for (int i = 1; i < M.numRotors() + 1; i++) {
-            rotors[i - 1] = set[i];
-        }
-        for (int i = 0; i < rotors.length - 1; i++) {
-            for (int j = i + 1; j < rotors.length; j++) {
-                if (rotors[i].equals(rotors[j])) {
-                    throw new EnigmaException("Repeated Rotor.");
+        for (int i = 0; i < copyRotors.length - 1; i++) {
+            for (int j = i + 1; j < copyRotors.length; j++) {
+                if (copyRotors[i].equals(copyRotors[j])) {
+                    throw new EnigmaException("Rotor is repeated.");
                 }
             }
         }
-        String cycle = "";
-        for (int i = 7; i < set.length; i++) {
-            cycle = cycle.concat(set[i] + " ");
+        String plugboardVals = "";
+        for (int i = Math.max(uniq.length - 1, 7); i < uniq.length; i++) {
+            if (uniq[i].startsWith("(")) {
+                plugboardVals = plugboardVals.concat(uniq[i] + " ");
+            }
         }
-        M.insertRotors(rotors);
-        if (!M.rotorArr()[0].reflecting()) {
-            throw new EnigmaException("First Rotor should be a reflector");
+        M.insertRotors(copyRotors);
+        if (!M.get0().reflecting()) {
+            throw error("The init rotor should be a reflector.");
         }
-        M.setRotors(set[M.numRotors() + 1]);
-        M.setPlugboard(new Permutation(cycle, _alphabet));
-        */
+        try {
+            M.setRotors(uniq[M.numRotors() + 1]);
+            M.setPlugboard(new Permutation(plugboardVals, _alphabet));
+        } catch (IndexOutOfBoundsException e) {
+            throw error("Incorrect format or wrong length.");
+        }
     }
 
     /** Print MSG in groups of five (except that the last group may
@@ -231,7 +240,7 @@ public final class Main {
     private String currRotor;
 
     /** Temporary string that is set to NEXT token of _config. */
-    private String temp;
+    private String tempName;
 
     /** Type and notches of current rotor. */
     private String notches;
