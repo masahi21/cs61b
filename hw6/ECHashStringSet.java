@@ -78,4 +78,4 @@ class ECHashStringSet implements StringSet {
     private LinkedList<String>[] _store;
     private int _size;
 }
-}
+
