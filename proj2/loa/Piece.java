@@ -14,12 +14,12 @@ enum Piece {
     /** Returns the full name of this piece (black, white, or -). */
     String fullName() {
         switch (this) {
-        case BP:
-            return "black";
-        case WP:
-            return "white";
-        default:
-            return "-";
+            case BP:
+                return "black";
+            case WP:
+                return "white";
+            default:
+                return "-";
         }
     }
 
@@ -27,12 +27,12 @@ enum Piece {
      *  text display of a board. */
     String abbrev() {
         switch (this) {
-        case BP:
-            return "b";
-        case WP:
-            return "w";
-        default:
-            return "-";
+            case BP:
+                return "b";
+            case WP:
+                return "w";
+            default:
+                return "-";
         }
     }
 
@@ -40,26 +40,26 @@ enum Piece {
      *  returns NAME.  Also returns EMP for NAME=="". */
     static Piece playerValueOf(String name) {
         switch (name.toLowerCase()) {
-        case "black":
-            return BP;
-        case "white":
-            return WP;
-        case "-": case "":
-            return EMP;
-        default:
-            throw new IllegalArgumentException("piece name unknown");
+            case "black":
+                return BP;
+            case "white":
+                return WP;
+            case "-": case "":
+                return EMP;
+            default:
+                throw new IllegalArgumentException("piece name unknown");
         }
     }
 
     /** Returns Piece with my opposing color (null for EMP). */
     Piece opposite() {
         switch (this) {
-        case BP:
-            return WP;
-        case WP:
-            return BP;
-        default:
-            return null;
+            case BP:
+                return WP;
+            case WP:
+                return BP;
+            default:
+                return null;
         }
     }
 

@@ -5,7 +5,7 @@ package loa;
 import static loa.Piece.*;
 
 /** An automated Player.
- *  @author
+ *  @author Matthew Sahim
  */
 class MachinePlayer extends Player {
 
@@ -71,20 +71,17 @@ class MachinePlayer extends Player {
      *  on BOARD, does not set _foundMove. */
     private int findMove(Board board, int depth, boolean saveMove,
                          int sense, int alpha, int beta) {
-        // FIXME
+
         if (saveMove) {
-            _foundMove = null; // FIXME
+            _foundMove = null;
         }
-        return 0; // FIXME
+        return 0;
     }
 
     /** Return a search depth for the current position. */
     private int chooseDepth() {
-        return 1;  // FIXME
+        return 3;
     }
-
-    // FIXME: Other methods, variables here.
-
     /** Used to convey moves discovered by findMove. */
     private Move _foundMove;
 

@@ -18,7 +18,7 @@ import static loa.Piece.*;
 import static loa.Utils.*;
 
 /** Main class of the Lines of Action program.
- * @author P. N. Hilfinger and
+ * @author P. N. Hilfinger and Matthew Sahim
  */
 public class Main {
 
@@ -35,7 +35,8 @@ public class Main {
      */
     public static void main(String... args) {
         CommandArgs options =
-            new CommandArgs("--debug=(\\d+){0,1} --display{0,1} --strict{0,1} "
+            new CommandArgs(
+                    "--debug=(\\d+){0,1} --display{0,1} --strict{0,1} "
                             + "--log={0,1} --=(.*){0,2}",
                             args);
 

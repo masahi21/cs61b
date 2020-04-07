@@ -15,7 +15,7 @@ import static loa.Piece.*;
 import static loa.Square.sq;
 
 /** A widget that displays a Loa game.
- *  @author
+ *  @author Matthew Sahim
  */
 class BoardWidget extends Pad {
 
@@ -100,16 +100,16 @@ class BoardWidget extends Pad {
     private void drawPiece(Graphics2D g, Square s) {
         Piece p = _board.get(s);
         switch (p) {
-        case EMP:
-            return;
-        case WP:
-            g.setColor(WHITE_COLOR);
-            break;
-        case BP:
-            g.setColor(BLACK_COLOR);
-            break;
-        default:
-            assert false;
+            case EMP:
+                return;
+            case WP:
+                g.setColor(WHITE_COLOR);
+                break;
+            case BP:
+                g.setColor(BLACK_COLOR);
+                break;
+            default:
+                assert false;
         }
         g.fillOval(cx(s) + PIECE_OFFSET, cy(s) + PIECE_OFFSET,
                    PIECE_SIZE, PIECE_SIZE);
@@ -140,14 +140,14 @@ class BoardWidget extends Pad {
             && x >= 0 && x < SIZE && y >= 0 && y < SIZE) {
             Square s = sq(x, y);
             switch (e.getID()) {
-            case MouseEvent.MOUSE_PRESSED:
-                mousePressed(s);
-                break;
-            case MouseEvent.MOUSE_RELEASED:
-                mouseReleased(s);
-                break;
-            default:
-                break;
+                case MouseEvent.MOUSE_PRESSED:
+                    mousePressed(s);
+                    break;
+                case MouseEvent.MOUSE_RELEASED:
+                    mouseReleased(s);
+                    break;
+                default:
+                    break;
             }
         }
     }
