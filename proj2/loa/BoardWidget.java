@@ -93,23 +93,22 @@ class BoardWidget extends Pad {
         for (Square sq : Square.ALL_SQUARES) {
             drawPiece(g, sq);
         }
-        // More? FIXME
     }
 
     /** Draw the contents of S on G. */
     private void drawPiece(Graphics2D g, Square s) {
         Piece p = _board.get(s);
         switch (p) {
-            case EMP:
-                return;
-            case WP:
-                g.setColor(WHITE_COLOR);
-                break;
-            case BP:
-                g.setColor(BLACK_COLOR);
-                break;
-            default:
-                assert false;
+        case EMP:
+            return;
+        case WP:
+            g.setColor(WHITE_COLOR);
+            break;
+        case BP:
+            g.setColor(BLACK_COLOR);
+            break;
+        default:
+            assert false;
         }
         g.fillOval(cx(s) + PIECE_OFFSET, cy(s) + PIECE_OFFSET,
                    PIECE_SIZE, PIECE_SIZE);
@@ -121,13 +120,11 @@ class BoardWidget extends Pad {
 
     /** Handle a mouse-button push on S. */
     private void mousePressed(Square s) {
-        // FIXME
         repaint();
     }
 
     /** Handle a mouse-button release on S. */
     private void mouseReleased(Square s) {
-        // FIXME
         repaint();
     }
 
@@ -140,14 +137,14 @@ class BoardWidget extends Pad {
             && x >= 0 && x < SIZE && y >= 0 && y < SIZE) {
             Square s = sq(x, y);
             switch (e.getID()) {
-                case MouseEvent.MOUSE_PRESSED:
-                    mousePressed(s);
-                    break;
-                case MouseEvent.MOUSE_RELEASED:
-                    mouseReleased(s);
-                    break;
-                default:
-                    break;
+            case MouseEvent.MOUSE_PRESSED:
+                mousePressed(s);
+                break;
+            case MouseEvent.MOUSE_RELEASED:
+                mouseReleased(s);
+                break;
+            default:
+                break;
             }
         }
     }
@@ -155,7 +152,6 @@ class BoardWidget extends Pad {
     /** Revise the displayed board according to BOARD. */
     synchronized void update(Board board) {
         _board.copyFrom(board);
-        // FIXME?
         repaint();
     }
 
@@ -164,7 +160,6 @@ class BoardWidget extends Pad {
      *  the board. */
     void setMoveCollection(boolean collecting) {
         _acceptingMoves = collecting;
-        // FIXME?
         repaint();
     }
 

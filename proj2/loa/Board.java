@@ -209,15 +209,16 @@ class Board {
      *  null.  If the game has ended in a tie, returns EMP. */
     Piece winner() {
         if (!_winnerKnown) {
-            if (piecesContiguous(BP)) {
-                _winner = BP;
-            } else if (piecesContiguous(WP)) {
-                _winner = WP;
-            } else {
-                _winner = EMP;
-            }
-            _winnerKnown = true;
+            return null;
         }
+        if (piecesContiguous(BP)) {
+            _winner = BP;
+        } else if (piecesContiguous(WP)) {
+            _winner = WP;
+        } else {
+            _winner = EMP;
+        }
+        _winnerKnown = true;
         return _winner;
     }
 

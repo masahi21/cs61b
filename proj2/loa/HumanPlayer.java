@@ -21,7 +21,6 @@ class HumanPlayer extends Player {
 
     @Override
     String getMove() {
-        // FIXME
         return this.getGame().readLine(true);
 
     }
