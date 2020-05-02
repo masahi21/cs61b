@@ -1,7 +1,7 @@
 package gitlet;
 
 /** Driver class for Gitlet, the tiny stupid version-control system.
- *  @author
+ *  @author Matthew Sahim
  */
 public class Main {
 
@@ -9,6 +9,37 @@ public class Main {
      *  <COMMAND> <OPERAND> .... */
     public static void main(String... args) {
         // FILL THIS IN
-    }
+        CommandManager processor = new CommandManager();
+        processor.add("init", new InitCommand());
+        processor.add("log", new LogCommand());
+        processor.add("global-log", new GlobalLogCommand());
+        processor.add("find", new FindCommand());
+        processor.add("add", new AddCommand());
+        processor.add("rm", new RmCommand());
+        processor.add("status", new StatusCommand());
+        processor.add("commit", new CommitCommand());
+        processor.add("ls-commit", new LsCommitCommand());
+        processor.add("checkout", new CheckoutCommand());
+        processor.add("branch", new BranchCommand());
+        processor.add("rm-branch", new RmBranchCommand());
+        processor.add("reset", new ResetCommand());
+        processor.add("merge", new MergeCommand());
 
+        processor.add("init-remote", new InitRemoteCommand());
+        processor.add("add-remote", new AddRemoteCommand());
+        processor.add("rm-remote", new RmRemoteCommand());
+        processor.add("push", new PushCommand());
+        processor.add("fetch", new FetchCommand());
+        processor.add("pull", new PullCommand());
+
+        Repository repo = new Repository(System.getProperty("user.dir"));
+
+        try {
+            processor.process(repo, args);
+        } catch (IllegalStateException | IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        repo.close();
+    }
 }
