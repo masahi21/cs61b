@@ -46,8 +46,8 @@ public class FetchCommand implements Command {
             throw new IllegalStateException("Remote directory not found.");
         }
         if (!remote.refs().contains(BRANCH, remoteBranch)) {
-            throw new IllegalStateException
-                    ("That remote does not have that branch.");
+            throw new IllegalStateException(
+                    "That remote does not have that branch.");
         }
 
         String remoteHead = remote.refs().resolve(BRANCH, remoteBranch);

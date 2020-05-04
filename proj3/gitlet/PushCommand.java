@@ -83,7 +83,9 @@ public class PushCommand implements Command {
      * @return The commits in the intersection.
      */
     private static Collection<String> intersectBranches(Repository repo,
-                                                        Repository remote, String head, String remoteHead) {
+                                                        Repository remote,
+                                                        String head,
+                                                        String remoteHead) {
         Collection<String> localHistory = MergeCommand.getHistory(repo, head,
                 new LinkedHashSet<String>());
         if (!localHistory.contains(remoteHead) && !remoteHead.isEmpty()) {

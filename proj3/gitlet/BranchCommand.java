@@ -4,7 +4,7 @@ import static gitlet.ReferenceType.BRANCH;
 import static gitlet.ReferenceType.HEAD;
 
 /**
- * @author
+ * @author Matthew Sahim
  */
 public class BranchCommand implements Command {
 

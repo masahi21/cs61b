@@ -37,8 +37,8 @@ public class MergeCommand implements Command {
             throw new IllegalStateException("You have uncommitted changes.");
         }
         if (!repo.refs().contains(BRANCH, branch)) {
-            throw new IllegalStateException
-                    ("A branch with that name does not exist.");
+            throw new IllegalStateException(
+                    "A branch with that name does not exist.");
         }
         String otherHash = repo.refs().resolve(BRANCH, branch);
         String headHash = repo.refs().resolve(HEAD);
@@ -46,8 +46,8 @@ public class MergeCommand implements Command {
         String splitHash = getSplitPoint(repo, headHash, otherHash);
 
         if (headHash.equals(otherHash)) {
-            throw new IllegalStateException
-                    ("Cannot merge a branch with itself.");
+            throw new IllegalStateException(
+                    "Cannot merge a branch with itself.");
         }
 
         if (splitHash.equals(otherHash)) {
