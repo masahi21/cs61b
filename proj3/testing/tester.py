@@ -84,7 +84,7 @@ TEST.dir).
 When finished, reports number of tests passed and failed, and the number of
 faulty TEST.in files."""
 
-GITLET_COMMAND = "java -ea gitlet.Main"
+GITLET_COMMAND = "java -ea gitlet.Main.java"
 TIMEOUT = 10
 
 def Usage():
