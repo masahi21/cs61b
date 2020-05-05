@@ -188,7 +188,7 @@ public class MergeCommand implements Command {
      *            The files in conflict.
      */
     private static void mergeConflict(Repository repo, Commit head,
-                                      Commit other, Collection<String> inConflict) {
+            Commit other, Collection<String> inConflict) {
         Index index = repo.index();
         for (String file : inConflict) {
             Path filePath = repo.getWorkingDir().resolve(file);

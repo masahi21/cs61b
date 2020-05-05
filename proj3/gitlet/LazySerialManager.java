@@ -61,11 +61,10 @@ public abstract class LazySerialManager<T extends Serializable>
 
     /**
      * Gets a serial object.
-     * @param file
-     *            The file name of the object.
-     * @param <S>
      * @param type
-     * @return The object.
+     * @param file
+     * @param <S>
+     * @return
      */
     public <S extends T> S get(Class<S> type, String file) {
         try {
@@ -142,9 +141,7 @@ public abstract class LazySerialManager<T extends Serializable>
     /**
      * Removes a file from the Lazy Serial manager.
      * @param type
-     *            The tpe.
      * @param file
-     *            The file.
      * @param <S>
      */
     public <S extends T> void remove(Class<S> type, String file) {
@@ -169,7 +166,10 @@ public abstract class LazySerialManager<T extends Serializable>
         }
     }
 
-    /** protected abstract boolean.*/
+    /**
+     * Protected abstract boolean.
+     * @return
+     */
     protected abstract boolean niceSerialization();
 
     /**
@@ -228,9 +228,8 @@ public abstract class LazySerialManager<T extends Serializable>
     /**
      * Performs an action for every file of object of type TYPE.
      * @param type
-     *            The object type.
      * @param action
-     *            The action.
+     * @param <S>
      */
     public <S extends T> void lazyForEach(Class<S> type,
                                           Consumer<? super String> action) {
@@ -245,12 +244,11 @@ public abstract class LazySerialManager<T extends Serializable>
     /**
      * Performs a for each on an object of a certain type.
      * @param type
-     *            The type of the object.
      * @param action
-     *            The action.
+     * @param <S>
      */
     public <S extends T> void forEach(Class<S> type,
-                                      final BiConsumer<? super String, ? super S> action) {
+            final BiConsumer<? super String, ? super S> action) {
         if (!this.tracker.containsKey(type)) {
             String name = type.getSimpleName();
             throw new IllegalStateException(
@@ -316,8 +314,11 @@ public abstract class LazySerialManager<T extends Serializable>
 
     /**
      * Loads an object into the lazy cache.
+     * @param type
      * @param file
+     * @param <S>
      * @return
+     * @throws ClassCastException
      */
     private <S extends T> S load(Class<S> type, String file)
             throws ClassCastException {

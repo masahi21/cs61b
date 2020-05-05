@@ -2,7 +2,6 @@ package gitlet;
 
 import static gitlet.ReferenceType.BRANCH;
 import static gitlet.ReferenceType.HEAD;
-import static gitlet.ReferenceType.TAG;
 
 /**
  * @author Matthew Sahim

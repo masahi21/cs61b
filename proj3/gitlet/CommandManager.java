@@ -26,7 +26,7 @@ public class CommandManager {
      * @param localRepo Given a local repository.
      * @param args The arguments.
      * @throws IllegalStateException */
-    public void process(Repository localRepo, String args[])
+    public void process(Repository localRepo, String[] args)
             throws IllegalStateException, IllegalArgumentException {
         if (args == null || args.length == 0) {
             throw new IllegalArgumentException("Please enter a command.");

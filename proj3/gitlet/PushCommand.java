@@ -100,7 +100,7 @@ public class PushCommand implements Command {
     }
 
     /**
-     * Feeds the remote forward,
+     * Feeds the remote forward.
      * @param remote the remiote.
      * @param remoteBranch the remote branch
      * @param head the head.

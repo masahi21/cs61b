@@ -12,9 +12,18 @@ import java.nio.file.attribute.BasicFileAttributes;
  * @author ato (https://gist.github.com/ato/6774390)
  */
 class TempDirectory {
+
+    /**
+     * The path.
+     */
     final Path path;
 
-    public TempDirectory(Path start, String prefix) {
+    /**
+     * Starts the temporary directory.
+     * @param start
+     * @param prefix
+     */
+    TempDirectory(Path start, String prefix) {
         try {
             this.path = Files.createTempDirectory(start, prefix);
         } catch (IOException e) {
@@ -22,10 +31,17 @@ class TempDirectory {
         }
     }
 
+    /**
+     * Returns the path.
+     * @return
+     */
     public Path getPath() {
         return this.path;
     }
 
+    /**
+     * Deletes the temporary directory when exited.
+     */
     public void deleteOnExit() {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
@@ -35,6 +51,9 @@ class TempDirectory {
         });
     }
 
+    /**
+     * Deletes the temporary directory.
+     */
     public void delete() {
         if (!Files.exists(this.path)) {
             return;
@@ -43,14 +62,14 @@ class TempDirectory {
             Files.walkFileTree(this.path, new SimpleFileVisitor<Path>() {
                 @Override
                 public FileVisitResult postVisitDirectory(Path dir,
-                                                          IOException exc) throws IOException {
+                        IOException exc) throws IOException {
                     Files.deleteIfExists(dir);
                     return super.postVisitDirectory(dir, exc);
                 }
 
                 @Override
                 public FileVisitResult visitFile(Path file,
-                                                 BasicFileAttributes attrs) throws IOException {
+                        BasicFileAttributes attrs) throws IOException {
                     Files.deleteIfExists(file);
                     return super.visitFile(file, attrs);
                 }

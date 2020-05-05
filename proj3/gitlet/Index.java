@@ -62,10 +62,10 @@ public class Index implements Serializable {
     /**
      * Checks out a particular file.
      * @param filename
-     *            The file to checkout.
-     * @param stage
+     * The file to checkout.
      * @param hash
-     *            The hash of the file.
+     * The hash of the file.
+     * @param stage
      */
     public void checkout(String filename, String hash, boolean stage) {
 

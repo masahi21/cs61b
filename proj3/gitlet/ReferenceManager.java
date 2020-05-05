@@ -8,10 +8,21 @@ import java.util.function.BiConsumer;
  */
 public class ReferenceManager extends LazySerialManager<Reference> {
 
+    /**
+     * Calls the parent of base.
+     * @param base
+     */
     public ReferenceManager(Path base) {
         super(base);
     }
 
+    /**
+     * Adds the file to the reference manager.
+     * @param type
+     * @param fileName
+     * @param ref
+     * @return
+     */
     public Reference add(ReferenceType type, String fileName, Reference ref) {
         try {
             this.add(type.getBaseDir() + fileName, ref);
@@ -23,10 +34,22 @@ public class ReferenceManager extends LazySerialManager<Reference> {
         return ref;
     }
 
+    /**
+     * Adds the file to the reference manager.
+     * @param type
+     * @param ref
+     * @return
+     */
     public Reference add(ReferenceType type, Reference ref) {
         return this.add(type, type.toString(), ref);
     }
 
+    /**
+     * Gets the type of a string.
+     * @param type
+     * @param fileName
+     * @return
+     */
     public Reference get(ReferenceType type, String fileName) {
         Reference ref =
                 this.get(Reference.class, type.getBaseDir() + fileName);
@@ -38,6 +61,11 @@ public class ReferenceManager extends LazySerialManager<Reference> {
 
     }
 
+    /**
+     * Gets the type of the string.
+     * @param type
+     * @return
+     */
     public Reference get(ReferenceType type) {
         return this.get(type, type.toString());
     }
@@ -52,6 +80,12 @@ public class ReferenceManager extends LazySerialManager<Reference> {
         return this.contains(Reference.class, branch.getBaseDir() + name);
     }
 
+    /**
+     * Resolves the types of the files and their targets.
+     * @param type
+     * @param fileName
+     * @return
+     */
     public String resolve(ReferenceType type, String fileName) {
         Reference cur = this.get(type, fileName);
         while (cur.targetIsReference()) {
@@ -62,10 +96,20 @@ public class ReferenceManager extends LazySerialManager<Reference> {
 
     }
 
+    /**
+     * Resolves the string as given type.
+     * @param type
+     * @return
+     */
     public String resolve(ReferenceType type) {
         return this.resolve(type, type.toString());
     }
 
+    /**
+     * Removes the file from the reference manager.
+     * @param type
+     * @param fileName
+     */
     public void remove(ReferenceType type, String fileName) {
         try {
             this.remove(Reference.class, type.getBaseDir() + fileName);

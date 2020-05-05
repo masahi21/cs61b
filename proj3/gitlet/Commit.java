@@ -102,7 +102,8 @@ public class Commit extends GitletObject implements Map<String, String> {
             mergemsg = "";
             msg = message;
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM d HH:mm:ss yyyy Z");
+        DateTimeFormatter formatter =
+                DateTimeFormatter.ofPattern("EEE MMM d HH:mm:ss yyyy Z");
         String dateStr = this.date.format(formatter);
         return "===\n" + "commit " + this.sha1() + "\n"
                 + mergemsg + "Date: " + dateStr + "\n" + msg + "\n";

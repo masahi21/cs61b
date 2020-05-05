@@ -13,6 +13,7 @@ public enum ReferenceType {
     private String baseDir;
 
     /**
+     * Sets the directory.
      * @param dir
      */
     ReferenceType(String dir) {

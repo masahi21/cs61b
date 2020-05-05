@@ -17,9 +17,25 @@ import java.util.HashMap;
  * @author Matthew Sahim
  */
 public class Repository extends LazySerialManager<Serializable> {
+
+    /**
+     * The gitlet directory.
+     */
     private static final String GITLET_DIR = ".gitlet";
+
+    /**
+     * The index.
+     */
     private static final String INDEX = "index";
+
+    /**
+     * The object directory.
+     */
     private static final String OBJ_DIR = "objects/";
+
+    /**
+     * The reference directory.
+     */
     private static final String REFS_DIR = "refs/";
 
     /**
@@ -80,6 +96,7 @@ public class Repository extends LazySerialManager<Serializable> {
 
     /**
      * Gets the reference manager.
+     * @return
      */
     public ReferenceManager refs() {
         return this.refMan;
@@ -91,7 +108,8 @@ public class Repository extends LazySerialManager<Serializable> {
     public void init() {
         if (this.isOpen()) {
             throw new IllegalStateException(
-                    "A Gitlet version-control system already exists in the current directory.");
+                    "A Gitlet version-control system already exists in the " +
+                            "current directory.");
         }
 
         super.open();
@@ -119,8 +137,8 @@ public class Repository extends LazySerialManager<Serializable> {
         Index index = this.index();
 
         try {
-            for (Path entry : Files.newDirectoryStream(this.getWorkingDir(),
-                    x -> !Files.isDirectory(x))) {
+            for (Path entry : Files.newDirectoryStream(
+                    this.getWorkingDir(), x -> !Files.isDirectory(x))) {
                 String fileName = entry.getFileName().toString();
 
                 if (commit.containsKey(fileName)
@@ -132,8 +150,8 @@ public class Repository extends LazySerialManager<Serializable> {
                 }
             }
 
-            for (Path entry : Files.newDirectoryStream(this.getWorkingDir(),
-                    x -> !Files.isDirectory(x))) {
+            for (Path entry : Files.newDirectoryStream(
+                    this.getWorkingDir(), x -> !Files.isDirectory(x))) {
                 String name = entry.getFileName().toString();
 
                 if (index.getBlobs().containsKey(name)) {
@@ -162,6 +180,7 @@ public class Repository extends LazySerialManager<Serializable> {
      * Checks out a given file of a commit.
      * @param commit
      * @param filename
+     * @param stage
      */
     public void checkout(Commit commit, String filename, boolean stage) {
         String blobHash = commit.get(filename);
@@ -183,8 +202,11 @@ public class Repository extends LazySerialManager<Serializable> {
 
     /**
      * Adds a commit to the head.
-     * @param message The commit to add to the head.
-     * @return The Sha-1 of the commit.
+     * The commit to add to the head.
+     * The Sha-1 of the commit.
+     * @param message
+     * @param blobs
+     * @return
      */
     public String addCommitAtHead(String message,
                                   HashMap<String, String> blobs) {
@@ -207,7 +229,7 @@ public class Repository extends LazySerialManager<Serializable> {
     }
 
     /**
-     * Sets the current branch in the head.`
+     * Sets the current branch in the head.
      * @param branch
      */
     public void setCurrentBranch(String branch) {
@@ -236,7 +258,10 @@ public class Repository extends LazySerialManager<Serializable> {
         this.objectMan.close();
     }
 
-    /** Gets the working directory */
+    /**
+     * Gets the working directory.
+     * @return
+     */
     public Path getWorkingDir() {
         return this.workingDir;
     }

@@ -22,7 +22,11 @@ public class Reference implements Serializable {
      */
     private ReferenceType targetType;
 
-    /** the reference.*/
+    /**
+     * The reference.
+     * @param targetType
+     * @param targetRef
+     */
     public Reference(ReferenceType targetType, String targetRef) {
         this.targetType = targetType;
         this.target = targetRef;

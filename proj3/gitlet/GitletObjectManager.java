@@ -13,8 +13,15 @@ import java.util.function.BiConsumer;
  */
 public class GitletObjectManager extends LazySerialManager<GitletObject> {
 
+    /**
+     * The directory limit.
+     */
     private static final int DIR_DELIM = 2;
 
+    /**
+     * Calls the parent of base.
+     * @param base
+     */
     public GitletObjectManager(Path base) {
         super(base);
     }
@@ -33,7 +40,7 @@ public class GitletObjectManager extends LazySerialManager<GitletObject> {
      */
     @Override
     public <S extends GitletObject> void forEach(Class<S> type,
-                                                 BiConsumer<? super String, ? super S> action) {
+            BiConsumer<? super String, ? super S> action) {
         BiConsumer<? super String, ? super S> hashedAction = (file, com) -> {
             action.accept(fileToHash(file), com);
         };
@@ -79,13 +86,15 @@ public class GitletObjectManager extends LazySerialManager<GitletObject> {
     }
 
     /**
-     * Uses the speed of the file system to load an object of a given type
-     * satisfying the search.
+     *  Uses the speed of the file system to load an object of a given type
+     *  satisfying the search.
+     *  The type to search for.
+     *  The delimiter with which to search.
+     *  The gitlet object to find
      * @param type
-     *            The type to search for.
      * @param search
-     *            The delimiter with which to search.
-     * @return The gitlet objecto find.
+     * @param <S>
+     * @return
      */
     public <S extends GitletObject> S find(Class<S> type, String search) {
         Set<String> contents = this.tracker.get(type);
@@ -103,7 +112,8 @@ public class GitletObjectManager extends LazySerialManager<GitletObject> {
 
         Path base = this.getBaseDirectory();
         try (DirectoryStream<Path> str =
-                     Files.newDirectoryStream(base, x -> Files.isDirectory(x))) {
+                     Files.newDirectoryStream(base, x ->
+                             Files.isDirectory(x))) {
 
             for (Path entry : str) {
                 String directoryName = entry.getFileName().toString();
