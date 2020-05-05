@@ -108,8 +108,8 @@ public class Repository extends LazySerialManager<Serializable> {
     public void init() {
         if (this.isOpen()) {
             throw new IllegalStateException(
-                    "A Gitlet version-control system already exists in the " +
-                            "current directory.");
+                    "A Gitlet version-control system already exists in the "
+                            + "current directory.");
         }
 
         super.open();
@@ -208,8 +208,8 @@ public class Repository extends LazySerialManager<Serializable> {
      * @param blobs
      * @return
      */
-    public String addCommitAtHead(String message,
-                                  HashMap<String, String> blobs) {
+    public String addCommitAtHead(String message, HashMap<String, String>
+            blobs) {
         String headHash = this.refs().resolve(HEAD);
         ZonedDateTime now = ZonedDateTime.now();
         String commitHash =
